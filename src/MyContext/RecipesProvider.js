@@ -58,7 +58,7 @@ function RecipesProvider({ children }) {
   useEffect(() => {
     const fetchCocktailsIngredientData = async () => {
       try {
-        const url = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?i={ingrediente}';
+        const url = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=rice';
         const response = await fetch(url);
         const { drinks } = await response.json();
         setCocktailsIngredientApi(drinks);
@@ -117,7 +117,7 @@ function RecipesProvider({ children }) {
 
   const alertEmptyArray = () => {
     console.log(arrayCards.length);
-    if (arrayCards.length === 0) {
+    if (arrayCards === null) {
       global.alert('Sorry, we haven"t found any recipes for these filters.');
     }
   };

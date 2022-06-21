@@ -21,6 +21,7 @@ function SearchBarHeader() {
   };
 
   const searchBtn = () => {
+    console.log(mealIngredientApi);
     searchBtnMeals();
     if (radio === 'ingredient') {
       return setArrayCards(mealIngredientApi);
