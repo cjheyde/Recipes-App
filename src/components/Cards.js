@@ -14,15 +14,15 @@ function Cards() {
     <div>
       { arrayCards !== undefined && arrayCards.map((card, index) => (
         <div
-          data-testid="${index}-recipe-card"
+          data-testid={ `${index}-recipe-card` }
           key={ index }
         >
           <img
-            data-testid="${index}-card-img"
+            data-testid={ `${index}-card-img` }
             src={ card.strDrinkThumb }
             alt="thumb"
           />
-          <p data-testid="${index}-card-name">
+          <p data-testid={ `${index}-card-name` }>
             {card.strDrink}
           </p>
         </div>

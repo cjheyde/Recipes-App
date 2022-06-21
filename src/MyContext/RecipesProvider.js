@@ -58,7 +58,7 @@ function RecipesProvider({ children }) {
   useEffect(() => {
     const fetchCocktailsIngredientData = async () => {
       try {
-        const url = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?i={ingrediente}';
+        const url = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=Gin';
         const response = await fetch(url);
         const { drinks } = await response.json();
         setCocktailsIngredientApi(drinks);
