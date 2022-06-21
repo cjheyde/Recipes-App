@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import RecipesContext from '../MyContext/RecipesContext';
+import '../CSS/CardMeals.css';
 
 const doze = 12;
 
