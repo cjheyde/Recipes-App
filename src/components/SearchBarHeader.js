@@ -1,11 +1,15 @@
 import React, { useContext } from 'react';
 import { useLocation } from 'react-router-dom';
-import UserContext from '../MyContext/UserContext';
+import RecipesContext from '../MyContext/RecipesContext';
+
+const firstLetter = 'first-letter';
 
 function SearchBarHeader() {
   const { radioSelected, setRadioSelected, mealIngredientApi,
     mealNameApi, mealFirstLetterApi, cocktailsIngredientApi,
-    cocktailsNameApi, cocktailsFirstLetterApi } = useContext(UserContext);
+    cocktailsNameApi, cocktailsFirstLetterApi, searchBtnMeals,
+    searchBtnCocktailsDrinks,
+    setArrayCards } = useContext(RecipesContext);
   const { radio } = radioSelected;
   const pathname = useLocation();
 
@@ -17,21 +21,27 @@ function SearchBarHeader() {
   };
 
   const searchBtn = () => {
+    searchBtnMeals();
     if (radio === 'ingredient') {
-      return mealIngredientApi;
+      return setArrayCards(mealIngredientApi);
     } if (radio === 'name') {
-      return mealNameApi;
+      return setArrayCards(mealNameApi);
+    } if (radio === firstLetter && mealFirstLetterApi.length === 0) {
+      return global.alert('Your search must have only 1 (one) character');
     }
-    return mealFirstLetterApi;
+    return setArrayCards(mealFirstLetterApi);
   };
 
   const searchBtnCocktails = () => {
+    searchBtnCocktailsDrinks();
     if (radio === 'ingredient') {
-      return cocktailsIngredientApi;
+      return setArrayCards(cocktailsIngredientApi);
     } if (radio === 'name') {
-      return cocktailsNameApi;
+      return setArrayCards(cocktailsNameApi);
+    } if (radio === firstLetter && cocktailsFirstLetterApi.length === 0) {
+      return global.alert('Your search must have only 1 (one) character');
     }
-    return cocktailsFirstLetterApi;
+    return setArrayCards(cocktailsFirstLetterApi);
   };
 
   return (
@@ -66,7 +76,7 @@ function SearchBarHeader() {
           type="radio"
           name="radio"
           value="first-letter"
-          checked={ radio === 'first-letter' }
+          checked={ radio === firstLetter }
           data-testid="first-letter-search-radio"
           onChange={ handleChange }
         />
@@ -75,7 +85,7 @@ function SearchBarHeader() {
       <button
         type="button"
         data-testid="exec-search-btn"
-        onClick={ pathname.pathname === '/cocktails' ? searchBtnCocktails : searchBtn }
+        onClick={ pathname.pathname === '/drinks' ? searchBtnCocktails : searchBtn }
       >
         Search
       </button>
