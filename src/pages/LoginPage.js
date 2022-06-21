@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-// import { propTypes } from 'prop-types';
 import { useHistory } from 'react-router-dom';
 
 const six = 6;
 
 function LoginPage() {
-  // const { history } = props;
   const history = useHistory();
   const [user, setUser] = useState({ email: '', password: '' });
   const [isDisabeld, setIsDisabeld] = useState(true);
@@ -74,10 +72,5 @@ function LoginPage() {
     </div>
   );
 }
-
-// LoginPage.propTypes = {
-//   props: propTypes.objectOf(propTypes.object).isRequired,
-//   history: propTypes.objectOf.isRequired,
-// };
 
 export default LoginPage;

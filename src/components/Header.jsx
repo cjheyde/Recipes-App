@@ -7,7 +7,6 @@ import searchIcon from '../images/searchIcon.svg';
 function Header() {
   const {
     headerState,
-    // handleHeaderTitle,
     setHeaderState,
     fExploreNationality,
     foods,
@@ -52,7 +51,8 @@ function Header() {
           />
         )}
       </div>
-      {searchBar && <input type="text" data-testid="search-input" />}
+      {searchBar
+      && <input type="text" data-testid="search-input" />}
     </section>
   );
 }
