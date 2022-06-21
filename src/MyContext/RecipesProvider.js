@@ -1,9 +1,20 @@
-<<<<<<< HEAD
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import RecipesContext from './RecipesContext';
 
 function RecipesProvider({ children }) {
+  const history = useHistory();
+  const [mealIngredientApi, setMealIngredientApi] = useState([]);
+  const [mealNameApi, setMealNameApi] = useState([]);
+  const [mealFirstLetterApi, setMealFirstLetterApi] = useState([]);
+  const [cocktailsIngredientApi, setCocktailsIngredientApi] = useState([]);
+  const [cocktailsNameApi, setCocktailsNameApi] = useState([]);
+  const [cocktailsFirstLetterApi, setCocktailsFirstLetterApi] = useState([]);
+  const [radioSelected, setRadioSelected] = useState({
+    radio: '',
+  });
+  const [arrayCards, setArrayCards] = useState([]);
   const [foodData, setFoodData] = useState([]);
   const [arrayFoods, setArrayFoods] = useState([]);
   // const [drinkData, setDrinkData] = useState([]);
@@ -22,38 +33,6 @@ function RecipesProvider({ children }) {
   useEffect(() => {
     getFoodCategories();
   }, []);
-
-  const contextType = {
-    arrayFoods,
-    setArrayFoods,
-    arrayDrinks,
-    setArrayDrinks,
-    getFoodCategories,
-    foodData,
-    // drinkData,
-  };
-
-  return (
-    <RecipesContext.Provider value={ contextType }>
-=======
-import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import PropTypes from 'prop-types';
-
-import RecipesContext from './RecipesContext';
-
-function RecipesProvider({ children }) {
-  const history = useHistory();
-  const [mealIngredientApi, setMealIngredientApi] = useState([]);
-  const [mealNameApi, setMealNameApi] = useState([]);
-  const [mealFirstLetterApi, setMealFirstLetterApi] = useState([]);
-  const [cocktailsIngredientApi, setCocktailsIngredientApi] = useState([]);
-  const [cocktailsNameApi, setCocktailsNameApi] = useState([]);
-  const [cocktailsFirstLetterApi, setCocktailsFirstLetterApi] = useState([]);
-  const [radioSelected, setRadioSelected] = useState({
-    radio: '',
-  });
-  const [arrayCards, setArrayCards] = useState([]);
 
   useEffect(() => {
     const fetchMealsIngredientData = async () => {
@@ -174,11 +153,17 @@ function RecipesProvider({ children }) {
     arrayCards,
     setArrayCards,
     alertEmptyArray,
+    arrayFoods,
+    setArrayFoods,
+    arrayDrinks,
+    setArrayDrinks,
+    getFoodCategories,
+    foodData,
+    // drinkData,
   };
 
   return (
     <RecipesContext.Provider value={ context }>
->>>>>>> 7929c3e2e785fec311aca80589d0700b96d7e7ca
       {children}
     </RecipesContext.Provider>
   );

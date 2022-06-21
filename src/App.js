@@ -6,12 +6,8 @@ import LoginPage from './pages/LoginPage';
 import Foods from './pages/Foods';
 import Drinks from './pages/Drinks';
 import UserProvider from './MyContext/UserProvider';
-<<<<<<< HEAD
-import Foods from './pages/Foods';
-import Drinks from './pages/Drinks';
-=======
-import RecipesProvider from './MyContext/RecipesProvider';
 import HeaderProvider from './MyContext/headerProvider';
+import RecipesProvider from './MyContext/RecipesProvider';
 import Explore from './pages/Explorer';
 import Profile from './pages/Profile';
 import FavoriteRecepies from './pages/FavoriteRecepies';
@@ -21,18 +17,10 @@ import ExploreFoods from './pages/ExploreFoods';
 import ExploreDrinkIng from './pages/ExploreDrinkIng';
 import ExploreDrinks from './pages/ExploreDrinks';
 import ExploreNationality from './pages/ExploreNationality';
->>>>>>> 7929c3e2e785fec311aca80589d0700b96d7e7ca
 
 function App() {
   return (
     <UserProvider>
-<<<<<<< HEAD
-      <Switch>
-        <Route exact path="/" component={ LoginPage } />
-        <Route path="/foods" component={ Foods } />
-        <Route exact path="/drinks" component={ Drinks } />
-      </Switch>
-=======
       <HeaderProvider>
         <RecipesProvider>
           <Switch>
@@ -66,7 +54,6 @@ function App() {
           </Switch>
         </RecipesProvider>
       </HeaderProvider>
->>>>>>> 7929c3e2e785fec311aca80589d0700b96d7e7ca
     </UserProvider>
   );
 }
