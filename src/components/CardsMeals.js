@@ -3,13 +3,13 @@ import RecipesContext from '../MyContext/RecipesContext';
 
 const doze = 12;
 
-function Cards() {
+function CardsMeals() {
   const { arrayCards, setArrayCards } = useContext(RecipesContext);
   if (arrayCards !== undefined && arrayCards.length > doze) {
     const newArrayCards = arrayCards.slice(0, doze);
     setArrayCards(newArrayCards);
   }
-  console.log(arrayCards);
+
   return (
     <div>
       { arrayCards !== undefined && arrayCards.map((card, index) => (
@@ -19,11 +19,11 @@ function Cards() {
         >
           <img
             data-testid={ `${index}-card-img` }
-            src={ card.strDrinkThumb }
+            src={ card.strMealThumb }
             alt="thumb"
           />
           <p data-testid={ `${index}-card-name` }>
-            {card.strDrink}
+            {card.strMeal}
           </p>
         </div>
       ))}
@@ -31,4 +31,4 @@ function Cards() {
   );
 }
 
-export default Cards;
+export default CardsMeals;

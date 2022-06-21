@@ -9,7 +9,7 @@ function SearchBarHeader() {
     mealNameApi, mealFirstLetterApi, cocktailsIngredientApi,
     cocktailsNameApi, cocktailsFirstLetterApi, searchBtnMeals,
     searchBtnCocktailsDrinks,
-    setArrayCards } = useContext(RecipesContext);
+    setArrayCards, alertEmptyArray } = useContext(RecipesContext);
   const { radio } = radioSelected;
   const pathname = useLocation();
 
@@ -29,10 +29,12 @@ function SearchBarHeader() {
     } if (radio === firstLetter && mealFirstLetterApi.length === 0) {
       return global.alert('Your search must have only 1 (one) character');
     }
+    alertEmptyArray();
     return setArrayCards(mealFirstLetterApi);
   };
 
   const searchBtnCocktails = () => {
+    alertEmptyArray();
     searchBtnCocktailsDrinks();
     if (radio === 'ingredient') {
       return setArrayCards(cocktailsIngredientApi);

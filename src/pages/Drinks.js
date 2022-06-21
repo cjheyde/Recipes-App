@@ -1,12 +1,12 @@
 import React from 'react';
 import SearchBarHeader from '../components/SearchBarHeader';
-import Cards from '../components/Cards';
+import CardsDrink from '../components/CardsDrink';
 
 function Drinks() {
   return (
     <div>
       <SearchBarHeader />
-      <Cards />
+      <CardsDrink />
     </div>
   );
 }

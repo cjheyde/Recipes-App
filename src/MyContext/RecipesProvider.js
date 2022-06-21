@@ -20,7 +20,7 @@ function RecipesProvider({ children }) {
   useEffect(() => {
     const fetchMealsIngredientData = async () => {
       try {
-        const url = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=rice';
+        const url = 'https://www.themealdb.com/api/json/v1/1/filter.php?i={ingrediente}';
         const response = await fetch(url);
         const { meals } = await response.json();
         setMealIngredientApi(meals);
@@ -58,7 +58,7 @@ function RecipesProvider({ children }) {
   useEffect(() => {
     const fetchCocktailsIngredientData = async () => {
       try {
-        const url = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=Gin';
+        const url = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?i={ingrediente}';
         const response = await fetch(url);
         const { drinks } = await response.json();
         setCocktailsIngredientApi(drinks);
@@ -115,6 +115,13 @@ function RecipesProvider({ children }) {
     }
   };
 
+  const alertEmptyArray = () => {
+    console.log(arrayCards.length);
+    if (arrayCards.length === 0) {
+      global.alert('Sorry, we haven"t found any recipes for these filters.');
+    }
+  };
+
   const context = {
     mealIngredientApi,
     mealNameApi,
@@ -128,6 +135,7 @@ function RecipesProvider({ children }) {
     searchBtnCocktailsDrinks,
     arrayCards,
     setArrayCards,
+    alertEmptyArray,
   };
 
   return (
