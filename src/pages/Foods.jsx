@@ -1,14 +1,16 @@
 import React from 'react';
+import Header from '../components/Header';
 import CardsMeals from '../components/CardsMeals';
 import SearchBarHeader from '../components/SearchBarHeader';
 
-function MealsPage() {
+function Foods() {
   return (
-    <div>
+    <>
+      <Header />
       <SearchBarHeader />
       <CardsMeals />
-    </div>
+    </>
   );
 }
 
-export default MealsPage;
+export default Foods;
