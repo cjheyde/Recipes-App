@@ -1,10 +1,13 @@
 import React, { useContext } from 'react';
+import { useLocation } from 'react-router-dom';
 import UserContext from '../MyContext/UserContext';
 
 function SearchBarHeader() {
-  const { radioSelected, setRadioSelected, ingredientApi,
-    nameApi, firstLetterApi } = useContext(UserContext);
+  const { radioSelected, setRadioSelected, mealIngredientApi,
+    mealNameApi, mealFirstLetterApi, cocktailsIngredientApi,
+    cocktailsNameApi, cocktailsFirstLetterApi } = useContext(UserContext);
   const { radio } = radioSelected;
+  const pathname = useLocation();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -15,11 +18,20 @@ function SearchBarHeader() {
 
   const searchBtn = () => {
     if (radio === 'ingredient') {
-      return ingredientApi;
+      return mealIngredientApi;
     } if (radio === 'name') {
-      return nameApi;
+      return mealNameApi;
     }
-    return firstLetterApi;
+    return mealFirstLetterApi;
+  };
+
+  const searchBtnCocktails = () => {
+    if (radio === 'ingredient') {
+      return cocktailsIngredientApi;
+    } if (radio === 'name') {
+      return cocktailsNameApi;
+    }
+    return cocktailsFirstLetterApi;
   };
 
   return (
@@ -63,7 +75,7 @@ function SearchBarHeader() {
       <button
         type="button"
         data-testid="exec-search-btn"
-        onClick={ searchBtn }
+        onClick={ pathname.pathname === '/cocktails' ? searchBtnCocktails : searchBtn }
       >
         Search
       </button>

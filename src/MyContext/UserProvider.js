@@ -4,57 +4,101 @@ import PropTypes from 'prop-types';
 import UserContext from './UserContext';
 
 function UserProvider({ children }) {
-  const [ingredientApi, setIngredientApi] = useState([]);
-  const [nameApi, setNameApi] = useState([]);
-  const [firstLetterApi, setFirstLetterApi] = useState([]);
+  const [mealIngredientApi, setMealIngredientApi] = useState([]);
+  const [mealNameApi, setMealNameApi] = useState([]);
+  const [mealFirstLetterApi, setMealFirstLetterApi] = useState([]);
+  const [cocktailsIngredientApi, setCocktailsIngredientApi] = useState([]);
+  const [cocktailsNameApi, setCocktailsNameApi] = useState([]);
+  const [cocktailsFirstLetterApi, setCocktailsFirstLetterApi] = useState([]);
   const [radioSelected, setRadioSelected] = useState({
     radio: '',
   });
 
   useEffect(() => {
-    const fetchIngredientData = async () => {
+    const fetchMealsIngredientData = async () => {
       try {
         const url = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=rice';
         const response = await fetch(url);
         const data = await response.json();
-        setIngredientApi(data);
+        setMealIngredientApi(data);
       } catch (error) {
         return error;
       }
     };
-    fetchIngredientData();
+    fetchMealsIngredientData();
 
-    const fetchNameData = async () => {
+    const fetchMealsNameData = async () => {
       try {
         const urlName = 'https://www.themealdb.com/api/json/v1/1/search.php?s=Arrabiata';
         const responseName = await fetch(urlName);
         const dataName = await responseName.json();
-        setNameApi(dataName);
+        setMealNameApi(dataName);
       } catch (error) {
         return error;
       }
     };
-    fetchNameData();
+    fetchMealsNameData();
 
-    const fetchFirstLetter = async () => {
+    const fetchMealsFirstLetter = async () => {
       try {
         const urlFirstLetter = 'https://www.themealdb.com/api/json/v1/1/search.php?f=a';
         const responseFirstLetter = await fetch(urlFirstLetter);
         const dataFirstLetter = await responseFirstLetter.json();
-        setFirstLetterApi(dataFirstLetter);
+        setMealFirstLetterApi(dataFirstLetter);
       } catch (error) {
         return error;
       }
     };
-    fetchFirstLetter();
+    fetchMealsFirstLetter();
+  }, []);
+
+  useEffect(() => {
+    const fetchCocktailsIngredientData = async () => {
+      try {
+        const url = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=fruit';
+        const response = await fetch(url);
+        const data = await response.json();
+        setCocktailsIngredientApi(data);
+      } catch (error) {
+        return error;
+      }
+    };
+    fetchCocktailsIngredientData();
+
+    const fetchCocktailsNameData = async () => {
+      try {
+        const urlName = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=margarita';
+        const responseName = await fetch(urlName);
+        const dataName = await responseName.json();
+        setCocktailsNameApi(dataName);
+      } catch (error) {
+        return error;
+      }
+    };
+    fetchCocktailsNameData();
+
+    const fetchCocktailsFirstLetter = async () => {
+      try {
+        const urlFirstLetter = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?f=a';
+        const responseFirstLetter = await fetch(urlFirstLetter);
+        const dataFirstLetter = await responseFirstLetter.json();
+        setCocktailsFirstLetterApi(dataFirstLetter);
+      } catch (error) {
+        return error;
+      }
+    };
+    fetchCocktailsFirstLetter();
   }, []);
 
   const context = {
-    ingredientApi,
-    nameApi,
-    firstLetterApi,
+    mealIngredientApi,
+    mealNameApi,
+    mealFirstLetterApi,
     radioSelected,
     setRadioSelected,
+    cocktailsIngredientApi,
+    cocktailsNameApi,
+    cocktailsFirstLetterApi,
   };
 
   return (
