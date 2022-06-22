@@ -87,7 +87,7 @@ function SearchBarHeader() {
       <button
         type="button"
         data-testid="exec-search-btn"
-        onClick={ pathname.pathname === '/cocktails' ? searchBtnCocktails : searchBtn }
+        onClick={ pathname.pathname === '/drinks' ? searchBtnCocktails : searchBtn }
       >
         Search
       </button>

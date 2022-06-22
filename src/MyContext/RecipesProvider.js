@@ -25,7 +25,6 @@ function RecipesProvider({ children }) {
         const url = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${userInput}`;
         const response = await fetch(url);
         const { meals } = await response.json();
-        console.log(meals);
         setMealIngredientApi(meals);
       } catch (error) {
         return error;
@@ -38,7 +37,6 @@ function RecipesProvider({ children }) {
         const urlName = `https://www.themealdb.com/api/json/v1/1/search.php?s=${userInput}`;
         const responseName = await fetch(urlName);
         const { meals } = await responseName.json();
-        console.log(meals);
         setMealNameApi(meals);
       } catch (error) {
         return error;
@@ -51,7 +49,6 @@ function RecipesProvider({ children }) {
         const urlFirstLetter = `https://www.themealdb.com/api/json/v1/1/search.php?f=${userInput}`;
         const responseFirstLetter = await fetch(urlFirstLetter);
         const { meals } = await responseFirstLetter.json();
-        console.log(meals);
         setMealFirstLetterApi(meals);
       } catch (error) {
         return error;
@@ -66,6 +63,7 @@ function RecipesProvider({ children }) {
         const url = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${userInput}`;
         const response = await fetch(url);
         const { drinks } = await response.json();
+        console.log(drinks);
         setCocktailsIngredientApi(drinks);
       } catch (error) {
         return error;
@@ -113,14 +111,18 @@ function RecipesProvider({ children }) {
   };
 
   const searchBtnCocktailsDrinks = () => {
+    console.log(cocktailsIngredientApi, cocktailsNameApi);
+    if (cocktailsIngredientApi.length === 0 && cocktailsNameApi === null) {
+      global.alert('Sorry, we haven\'t found any recipes for these filters.');
+    }
     if (radioSelected.radio === 'ingredient'
     && cocktailsIngredientApi.length === 1) {
-      history.push(`/cocktails/${cocktailsIngredientApi[0].idDrink}`);
+      history.push(`/drinks/${cocktailsIngredientApi[0].idDrink}`);
     } else if (radioSelected.radio === 'name' && cocktailsNameApi.length === 1) {
-      history.push(`/cocktails/${cocktailsNameApi[0].idDrink}`);
+      history.push(`/drinks/${cocktailsNameApi[0].idDrink}`);
     } else if (radioSelected.radio === 'first-letter'
         && cocktailsFirstLetterApi.length === 1) {
-      history.push(`/cocktails/${cocktailsFirstLetterApi[0].idDrink}`);
+      history.push(`/drinks/${cocktailsFirstLetterApi[0].idDrink}`);
     }
   };
 
