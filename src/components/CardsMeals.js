@@ -6,14 +6,18 @@ import '../CSS/CardMeals.css';
 const doze = 12;
 
 function CardsMeals() {
-  const { arrayFoods } = useContext(RecipesContext);
-  let { newArrayFood } = [];
-  if (arrayFoods.length > doze) {
-    newArrayFood = arrayFoods.slice(0, doze);
-  } else {
-    newArrayFood = arrayFoods;
-  }
-  // console.log(newArrayFood);
+  const { arrayCards, setArrayCards } = useContext(RecipesContext);
+  if (arrayCards !== null && arrayCards !== undefined && arrayCards.length > doze) {
+    const newArrayCards = arrayCards.slice(0, doze);
+    setArrayCards(newArrayCards);
+//   const { arrayFoods } = useContext(RecipesContext);
+//   let { newArrayFood } = [];
+//   if (arrayFoods.length > doze) {
+//     newArrayFood = arrayFoods.slice(0, doze);
+//   } else {
+//     newArrayFood = arrayFoods;
+//   }
+//   // console.log(newArrayFood);
   const history = useHistory();
 
   function cardClick(card) {
@@ -21,7 +25,9 @@ function CardsMeals() {
   }
   return (
     <div>
-      { newArrayFood !== undefined && newArrayFood.map((card, index) => (
+      { arrayCards !== null && arrayCards
+      !== undefined && arrayCards.map((card, index) => (
+//       { newArrayFood !== undefined && newArrayFood.map((card, index) => (
         <div
           data-testid={ `${index}-recipe-card` }
           key={ index }
