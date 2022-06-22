@@ -18,6 +18,10 @@ function RecipesProvider({ children }) {
     radio: '',
   });
   const [arrayCards, setArrayCards] = useState([]);
+  const [randomFoodAndDrinks, setRandomFoodAndDrinks] = useState({
+    food: {},
+    drink: {},
+  });
 
   useEffect(() => {
     const fetchMealsIngredientData = async () => {
@@ -82,7 +86,6 @@ function RecipesProvider({ children }) {
       }
     };
     fetchCocktailsNameData();
-
     const fetchCocktailsFirstLetter = async () => {
       try {
         const urlFirstLetter = `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${userInput}`;
@@ -94,6 +97,20 @@ function RecipesProvider({ children }) {
       }
     };
     fetchCocktailsFirstLetter();
+    const randomApi = async () => {
+      try {
+        const urlRandomDirnks = 'https://www.thecocktaildb.com/api/json/v1/1/random.php';
+        const responseRandomDirnks = await fetch(urlRandomDirnks);
+        const { drinks } = await responseRandomDirnks.json();
+        setRandomFoodAndDrinks({
+          ...randomFoodAndDrinks,
+          drink: drinks,
+        });
+      } catch (error) {
+        return console.log(error);
+      }
+    };
+    randomApi();
   }, [userInput]);
 
   const searchBtnMeals = () => {
@@ -128,7 +145,7 @@ function RecipesProvider({ children }) {
       }
     }
   };
-
+  console.log(randomFoodAndDrinks.food[0]);
   const context = {
     mealIngredientApi,
     mealNameApi,
@@ -142,6 +159,7 @@ function RecipesProvider({ children }) {
     searchBtnCocktailsDrinks,
     arrayCards,
     setArrayCards,
+    randomFoodAndDrinks,
   };
 
   return (
