@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import Header from '../components/Header';
 import CardsMeals from '../components/CardsMeals';
 import SearchBarHeader from '../components/SearchBarHeader';
@@ -10,6 +10,7 @@ import fetchAPI from '../services/api';
 const cinco = 5;
 
 function Foods() {
+  const [isfiltered, setIsfiltered] = useState(false);
   const {
     foodCategoryData,
   } = useContext(RecipesContext);
@@ -27,6 +28,7 @@ function Foods() {
     );
     // newFoodCategoryData = finalData.meals;
     console.log(finalData);
+    setIsfiltered(true);
   }
 
   return (
@@ -34,12 +36,13 @@ function Foods() {
       <Header />
       <SearchBarHeader />
       <div className="Filters">
-        { newFoodCategoryData !== undefined
+        { (newFoodCategoryData !== undefined && isfiltered === false)
           && newFoodCategoryData.map((category, index) => (
             <div key={ index }>
               <button
                 type="button"
                 data-testid={ `${category.strCategory}-category-filter` }
+                isfiltered={ isfiltered }
                 onClick={ () => onClickFilterFoodCategory(category.strCategory) }
               >
                 { category.strCategory }
