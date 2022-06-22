@@ -39,7 +39,7 @@ function App() {
             />
             <Route
               exact
-              path="/explore/ingredients"
+              path="/explore/drinks/ingredients"
               component={ ExploreDrinkIng }
             />
             <Route

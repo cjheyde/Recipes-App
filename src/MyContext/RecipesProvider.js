@@ -97,7 +97,7 @@ function RecipesProvider({ children }) {
   }, [userInput]);
 
   const searchBtnMeals = () => {
-    if (mealIngredientApi === null && mealNameApi === null) {
+    if (mealIngredientApi === null || mealNameApi === null) {
       global.alert('Sorry, we haven\'t found any recipes for these filters.');
     }
     if (mealIngredientApi !== null && mealNameApi !== null) {
