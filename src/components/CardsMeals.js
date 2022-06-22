@@ -5,15 +5,17 @@ import '../CSS/CardMeals.css';
 const doze = 12;
 
 function CardsMeals() {
-  const { arrayCards, setArrayCards } = useContext(RecipesContext);
-  if (arrayCards !== undefined && arrayCards.length > doze) {
-    const newArrayCards = arrayCards.slice(0, doze);
-    setArrayCards(newArrayCards);
+  const { arrayFoods } = useContext(RecipesContext);
+  let { newArrayFood } = [];
+  if (arrayFoods.length > doze) {
+    newArrayFood = arrayFoods.slice(0, doze);
+  } else {
+    newArrayFood = arrayFoods;
   }
-
+  console.log(newArrayFood);
   return (
     <div>
-      { arrayCards !== undefined && arrayCards.map((card, index) => (
+      { newArrayFood !== undefined && newArrayFood.map((card, index) => (
         <div
           data-testid={ `${index}-recipe-card` }
           key={ index }
@@ -23,7 +25,10 @@ function CardsMeals() {
             src={ card.strMealThumb }
             alt="thumb"
           />
-          <p data-testid={ `${index}-card-name` }>
+          <p
+            className="cardName"
+            data-testid={ `${index}-card-name` }
+          >
             {card.strMeal}
           </p>
         </div>

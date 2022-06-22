@@ -14,24 +14,45 @@ function RecipesProvider({ children }) {
   const [radioSelected, setRadioSelected] = useState({
     radio: '',
   });
-  const [arrayCards, setArrayCards] = useState([]);
-  const [foodData, setFoodData] = useState([]);
+  // const [foodCategoryData, setFoodCategoryData] = useState([]);
   const [arrayFoods, setArrayFoods] = useState([]);
   // const [drinkData, setDrinkData] = useState([]);
   const [arrayDrinks, setArrayDrinks] = useState([]);
 
-  async function getFoodCategories() {
+  async function fetchFoods() {
     try {
-      const response = await fetch('https://www.themealdb.com/api/json/v1/1/categories.php');
+      const response = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
       const finalData = await response.json();
-      setFoodData(finalData.strCategory);
+      setArrayFoods(finalData.meals);
     } catch (e) {
       console.log(e);
     }
   }
 
+  async function fetchDrinks() {
+    try {
+      const response = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
+      const finalData = await response.json();
+      setArrayDrinks(finalData.drinks);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  // async function fetchFoodCategories() {
+  //   try {
+  //     const response = await fetch('https://www.themealdb.com/api/json/v1/1/categories.php');
+  //     const finalData = await response.json();
+  //     setFoodCategoryData(finalData.strCategory);
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // }
+
   useEffect(() => {
-    getFoodCategories();
+    fetchFoods();
+    fetchDrinks();
+    // fetchFoodCategories();
   }, []);
 
   useEffect(() => {
@@ -116,25 +137,25 @@ function RecipesProvider({ children }) {
     } else if (radioSelected.radio === 'name' && mealNameApi.length === 1) {
       history.push(`/foods/${mealNameApi[0].idMeal}`);
     } else if (radioSelected.radio === 'first-letter'
-        && mealFirstLetterApi.length === 1) {
+      && mealFirstLetterApi.length === 1) {
       history.push(`/foods/${mealFirstLetterApi[0].idMeal}`);
     }
   };
 
   const searchBtnCocktailsDrinks = () => {
     if (radioSelected.radio === 'ingredient' && cocktailsIngredientApi.length === 1) {
-      history.push(`/cocktails/${cocktailsIngredientApi[0].idDrink}`);
+      history.push(`/driks/${cocktailsIngredientApi[0].idDrink}`);
     } else if (radioSelected.radio === 'name' && cocktailsNameApi.length === 1) {
-      history.push(`/cocktails/${cocktailsNameApi[0].idDrink}`);
+      history.push(`/driks/${cocktailsNameApi[0].idDrink}`);
     } else if (radioSelected.radio === 'first-letter'
-        && cocktailsFirstLetterApi.length === 1) {
-      history.push(`/cocktails/${cocktailsFirstLetterApi[0].idDrink}`);
+      && cocktailsFirstLetterApi.length === 1) {
+      history.push(`/driks/${cocktailsFirstLetterApi[0].idDrink}`);
     }
   };
 
   const alertEmptyArray = () => {
-    console.log(arrayCards.length);
-    if (arrayCards === null) {
+    console.log(arrayFoods.length);
+    if (arrayFoods === null) {
       global.alert('Sorry, we haven"t found any recipes for these filters.');
     }
   };
@@ -150,16 +171,11 @@ function RecipesProvider({ children }) {
     cocktailsFirstLetterApi,
     searchBtnMeals,
     searchBtnCocktailsDrinks,
-    arrayCards,
-    setArrayCards,
     alertEmptyArray,
     arrayFoods,
     setArrayFoods,
     arrayDrinks,
     setArrayDrinks,
-    getFoodCategories,
-    foodData,
-    // drinkData,
   };
 
   return (

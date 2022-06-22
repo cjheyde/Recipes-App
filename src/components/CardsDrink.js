@@ -4,15 +4,17 @@ import RecipesContext from '../MyContext/RecipesContext';
 const doze = 12;
 
 function CardsDrink() {
-  const { arrayCards, setArrayCards } = useContext(RecipesContext);
-  if (arrayCards !== undefined && arrayCards.length > doze) {
-    const newArrayCards = arrayCards.slice(0, doze);
-    setArrayCards(newArrayCards);
+  const { arrayDrinks } = useContext(RecipesContext);
+  let { newArrayDrinks } = [];
+  if (arrayDrinks.length > doze) {
+    newArrayDrinks = arrayDrinks.slice(0, doze);
+  } else {
+    newArrayDrinks = arrayDrinks;
   }
-
+  console.log(newArrayDrinks);
   return (
     <div>
-      { arrayCards !== undefined && arrayCards.map((card, index) => (
+      { newArrayDrinks !== undefined && newArrayDrinks.map((card, index) => (
         <div
           data-testid={ `${index}-recipe-card` }
           key={ index }
