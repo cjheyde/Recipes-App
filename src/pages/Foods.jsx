@@ -5,6 +5,7 @@ import SearchBarHeader from '../components/SearchBarHeader';
 import Footer from '../components/Footer';
 import RecipesContext from '../MyContext/RecipesContext';
 import '../CSS/Foods.css';
+import fetchAPI from '../services/api';
 
 const cinco = 5;
 
@@ -19,9 +20,13 @@ function Foods() {
   } else {
     newFoodCategoryData = foodCategoryData;
   }
-  // console.log(newFoodCategoryData);
-  function onClickFilterFoodCategory() {
-    // foodData.filter((foodCategory) => foodCategory);
+
+  async function onClickFilterFoodCategory(category) {
+    const finalData = await fetchAPI(
+      `www.themealdb.com/api/json/v1/1/filter.php?c=${category}`,
+    );
+    // newFoodCategoryData = finalData.meals;
+    console.log(finalData);
   }
 
   return (
@@ -35,7 +40,7 @@ function Foods() {
               <button
                 type="button"
                 data-testid={ `${category.strCategory}-category-filter` }
-                onClick={ onClickFilterFoodCategory }
+                onClick={ () => onClickFilterFoodCategory(category.strCategory) }
               >
                 { category.strCategory }
               </button>

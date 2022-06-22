@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import RecipesContext from './RecipesContext';
+import fetchAPI from '../services/api';
 
 function RecipesProvider({ children }) {
   const history = useHistory();
@@ -21,43 +22,23 @@ function RecipesProvider({ children }) {
   const [arrayDrinks, setArrayDrinks] = useState([]);
 
   async function fetchFoods() {
-    try {
-      const response = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
-      const finalData = await response.json();
-      setArrayFoods(finalData.meals);
-    } catch (e) {
-      console.log(e);
-    }
+    const finalData = await fetchAPI('https://www.themealdb.com/api/json/v1/1/search.php?s=');
+    setArrayFoods(finalData.meals);
   }
 
   async function fetchDrinks() {
-    try {
-      const response = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
-      const finalData = await response.json();
-      setArrayDrinks(finalData.drinks);
-    } catch (e) {
-      console.log(e);
-    }
+    const finalData = await fetchAPI('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
+    setArrayDrinks(finalData.drinks);
   }
 
   async function fetchFoodCategories() {
-    try {
-      const response = await fetch('https://www.themealdb.com/api/json/v1/1/list.php?c=list');
-      const finalData = await response.json();
-      setFoodCategoryData(finalData.meals);
-    } catch (e) {
-      console.log(e);
-    }
+    const finalData = await fetchAPI('https://www.themealdb.com/api/json/v1/1/list.php?c=list');
+    setFoodCategoryData(finalData.meals);
   }
 
   async function fetchDrinkCategories() {
-    try {
-      const response = await fetch('https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list');
-      const finalData = await response.json();
-      setDrinkCategoryData(finalData.drinks);
-    } catch (e) {
-      console.log(e);
-    }
+    const finalData = await fetchAPI('https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list');
+    setDrinkCategoryData(finalData.drinks);
   }
 
   useEffect(() => {
