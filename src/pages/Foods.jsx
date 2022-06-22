@@ -1,20 +1,27 @@
-// import React, { useContext } from 'react';
-import React from 'react';
+import React, { useContext } from 'react';
 import Header from '../components/Header';
 import CardsMeals from '../components/CardsMeals';
 import SearchBarHeader from '../components/SearchBarHeader';
 import Footer from '../components/Footer';
-// import RecipesContext from '../MyContext/RecipesContext';
+import RecipesContext from '../MyContext/RecipesContext';
 import '../CSS/Foods.css';
 
-function Foods() {
-  // const {
-  //   foodData,
-  // } = useContext(RecipesContext);
+const cinco = 5;
 
+function Foods() {
+  const {
+    foodCategoryData,
+  } = useContext(RecipesContext);
+
+  let { newFoodCategoryData } = [];
+  if (foodCategoryData.length > cinco) {
+    newFoodCategoryData = foodCategoryData.slice(0, cinco);
+  } else {
+    newFoodCategoryData = foodCategoryData;
+  }
+  // console.log(newFoodCategoryData);
   function onClickFilterFoodCategory() {
     // foodData.filter((foodCategory) => foodCategory);
-    console.log('onlcickFoodCategory');
   }
 
   return (
@@ -22,13 +29,18 @@ function Foods() {
       <Header />
       <SearchBarHeader />
       <div className="Filters">
-        <button
-          type="button"
-          data-testid="button-filter"
-          onClick={ onClickFilterFoodCategory }
-        >
-          Filtrar
-        </button>
+        { newFoodCategoryData !== undefined
+          && newFoodCategoryData.map((category, index) => (
+            <div key={ index }>
+              <button
+                type="button"
+                data-testid={ `${category.strCategory}-category-filter` }
+                onClick={ onClickFilterFoodCategory }
+              >
+                { category.strCategory }
+              </button>
+            </div>
+          ))}
       </div>
       <CardsMeals />
       <Footer />

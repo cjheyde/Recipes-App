@@ -14,9 +14,10 @@ function RecipesProvider({ children }) {
   const [radioSelected, setRadioSelected] = useState({
     radio: '',
   });
-  // const [foodCategoryData, setFoodCategoryData] = useState([]);
+  const [arrayCards, setArrayCards] = useState([]);
+  const [foodCategoryData, setFoodCategoryData] = useState([]);
   const [arrayFoods, setArrayFoods] = useState([]);
-  // const [drinkData, setDrinkData] = useState([]);
+  const [drinkCategoryData, setDrinkCategoryData] = useState([]);
   const [arrayDrinks, setArrayDrinks] = useState([]);
 
   async function fetchFoods() {
@@ -39,20 +40,31 @@ function RecipesProvider({ children }) {
     }
   }
 
-  // async function fetchFoodCategories() {
-  //   try {
-  //     const response = await fetch('https://www.themealdb.com/api/json/v1/1/categories.php');
-  //     const finalData = await response.json();
-  //     setFoodCategoryData(finalData.strCategory);
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // }
+  async function fetchFoodCategories() {
+    try {
+      const response = await fetch('https://www.themealdb.com/api/json/v1/1/list.php?c=list');
+      const finalData = await response.json();
+      setFoodCategoryData(finalData.meals);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  async function fetchDrinkCategories() {
+    try {
+      const response = await fetch('https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list');
+      const finalData = await response.json();
+      setDrinkCategoryData(finalData.drinks);
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   useEffect(() => {
     fetchFoods();
     fetchDrinks();
-    // fetchFoodCategories();
+    fetchFoodCategories();
+    fetchDrinkCategories();
   }, []);
 
   useEffect(() => {
@@ -176,6 +188,12 @@ function RecipesProvider({ children }) {
     setArrayFoods,
     arrayDrinks,
     setArrayDrinks,
+    arrayCards,
+    setArrayCards,
+    foodCategoryData,
+    setFoodCategoryData,
+    drinkCategoryData,
+    setDrinkCategoryData,
   };
 
   return (
