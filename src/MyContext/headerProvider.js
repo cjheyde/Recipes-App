@@ -9,17 +9,15 @@ function HeaderProvider({ children }) {
   const [drinks, setDrinks] = useState(false);
   const [fExploreNationality, setFExploreNationality] = useState(false);
   const [searchBar, setSearchBar] = useState(false);
+  const [userInput, setUserinput] = useState('');
 
-  // const handleHeaderTitle = ({ target }) => {
-  //   const { name } = target;
-
-  //   setHeaderState(name);
-  // };
+  const inputChange = ({ target }) => {
+    setUserinput(target.value);
+  };
 
   const context = {
     headerState,
     setHeaderState,
-    // handleHeaderTitle,
     foods,
     setFoods,
     drinks,
@@ -28,6 +26,8 @@ function HeaderProvider({ children }) {
     setFExploreNationality,
     searchBar,
     setSearchBar,
+    userInput,
+    inputChange,
   };
 
   return (

@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import RecipesContext from '../MyContext/RecipesContext';
+import headerContext from '../MyContext/headerContext';
 
 const firstLetter = 'first-letter';
 
@@ -9,7 +10,8 @@ function SearchBarHeader() {
     mealNameApi, mealFirstLetterApi, cocktailsIngredientApi,
     cocktailsNameApi, cocktailsFirstLetterApi, searchBtnMeals,
     searchBtnCocktailsDrinks,
-    setArrayCards, alertEmptyArray } = useContext(RecipesContext);
+    setArrayCards } = useContext(RecipesContext);
+  const { userInput } = useContext(headerContext);
   const { radio } = radioSelected;
   const pathname = useLocation();
 
@@ -21,27 +23,24 @@ function SearchBarHeader() {
   };
 
   const searchBtn = () => {
-    console.log(mealIngredientApi);
     searchBtnMeals();
     if (radio === 'ingredient') {
       return setArrayCards(mealIngredientApi);
     } if (radio === 'name') {
       return setArrayCards(mealNameApi);
-    } if (radio === firstLetter && mealFirstLetterApi.length === 0) {
+    } if (radio === firstLetter && userInput.length > 1) {
       return global.alert('Your search must have only 1 (one) character');
     }
-    alertEmptyArray();
     return setArrayCards(mealFirstLetterApi);
   };
 
   const searchBtnCocktails = () => {
-    alertEmptyArray();
     searchBtnCocktailsDrinks();
     if (radio === 'ingredient') {
       return setArrayCards(cocktailsIngredientApi);
     } if (radio === 'name') {
       return setArrayCards(cocktailsNameApi);
-    } if (radio === firstLetter && cocktailsFirstLetterApi.length === 0) {
+    } if (radio === firstLetter && userInput.length > 1) {
       return global.alert('Your search must have only 1 (one) character');
     }
     return setArrayCards(cocktailsFirstLetterApi);
@@ -88,7 +87,7 @@ function SearchBarHeader() {
       <button
         type="button"
         data-testid="exec-search-btn"
-        onClick={ pathname.pathname === '/drinks' ? searchBtnCocktails : searchBtn }
+        onClick={ pathname.pathname === '/cocktails' ? searchBtnCocktails : searchBtn }
       >
         Search
       </button>
