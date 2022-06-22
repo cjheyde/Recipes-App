@@ -2,7 +2,9 @@ import React from 'react';
 import Header from '../components/Header';
 
 function ExploreDrink() {
-  return <Header />;
+  return (
+    <Header />
+  );
 }
 
 export default ExploreDrink;
