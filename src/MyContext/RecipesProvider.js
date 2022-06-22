@@ -174,6 +174,7 @@ function RecipesProvider({ children }) {
           && cocktailsFirstLetterApi.length === 1) {
         history.push(`/drinks/${cocktailsFirstLetterApi[0].idDrink}`);
       }
+    }
   };
 
   const alertEmptyArray = () => {
@@ -201,7 +202,7 @@ function RecipesProvider({ children }) {
     setArrayDrinks,
     arrayCards,
     setArrayCards,
-    randomFoodAndDrinks
+    randomFoodAndDrinks,
     foodCategoryData,
     setFoodCategoryData,
     drinkCategoryData,
