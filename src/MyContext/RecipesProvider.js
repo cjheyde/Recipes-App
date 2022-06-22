@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
-
 import RecipesContext from './RecipesContext';
 import headerContext from './headerContext';
+import fetchAPI from '../services/api';
 
 function RecipesProvider({ children }) {
   const { userInput } = useContext(headerContext);
@@ -22,6 +22,37 @@ function RecipesProvider({ children }) {
     food: {},
     drink: {},
   });
+  const [foodCategoryData, setFoodCategoryData] = useState([]);
+  const [arrayFoods, setArrayFoods] = useState([]);
+  const [drinkCategoryData, setDrinkCategoryData] = useState([]);
+  const [arrayDrinks, setArrayDrinks] = useState([]);
+
+  async function fetchFoods() {
+    const finalData = await fetchAPI('https://www.themealdb.com/api/json/v1/1/search.php?s=');
+    setArrayFoods(finalData.meals);
+  }
+
+  async function fetchDrinks() {
+    const finalData = await fetchAPI('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
+    setArrayDrinks(finalData.drinks);
+  }
+
+  async function fetchFoodCategories() {
+    const finalData = await fetchAPI('https://www.themealdb.com/api/json/v1/1/list.php?c=list');
+    setFoodCategoryData(finalData.meals);
+  }
+
+  async function fetchDrinkCategories() {
+    const finalData = await fetchAPI('https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list');
+    setDrinkCategoryData(finalData.drinks);
+  }
+
+  useEffect(() => {
+    fetchFoods();
+    fetchDrinks();
+    fetchFoodCategories();
+    fetchDrinkCategories();
+  }, []);
 
   useEffect(() => {
     const fetchMealsIngredientData = async () => {
@@ -143,6 +174,12 @@ function RecipesProvider({ children }) {
           && cocktailsFirstLetterApi.length === 1) {
         history.push(`/drinks/${cocktailsFirstLetterApi[0].idDrink}`);
       }
+  };
+
+  const alertEmptyArray = () => {
+    console.log(arrayFoods.length);
+    if (arrayFoods === null) {
+      global.alert('Sorry, we haven"t found any recipes for these filters.');
     }
   };
   console.log(randomFoodAndDrinks.food[0]);
@@ -157,9 +194,18 @@ function RecipesProvider({ children }) {
     cocktailsFirstLetterApi,
     searchBtnMeals,
     searchBtnCocktailsDrinks,
+    alertEmptyArray,
+    arrayFoods,
+    setArrayFoods,
+    arrayDrinks,
+    setArrayDrinks,
     arrayCards,
     setArrayCards,
-    randomFoodAndDrinks,
+    randomFoodAndDrinks
+    foodCategoryData,
+    setFoodCategoryData,
+    drinkCategoryData,
+    setDrinkCategoryData,
   };
 
   return (
