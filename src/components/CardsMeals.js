@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import RecipesContext from '../MyContext/RecipesContext';
 import '../CSS/CardMeals.css';
 
@@ -12,7 +13,12 @@ function CardsMeals() {
   } else {
     newArrayFood = arrayFoods;
   }
-  console.log(newArrayFood);
+  // console.log(newArrayFood);
+  const history = useHistory();
+
+  function cardClick(card) {
+    history.push(`/foods/${card.idMeal}`);
+  }
   return (
     <div>
       { newArrayFood !== undefined && newArrayFood.map((card, index) => (
@@ -20,17 +26,19 @@ function CardsMeals() {
           data-testid={ `${index}-recipe-card` }
           key={ index }
         >
-          <img
-            data-testid={ `${index}-card-img` }
-            src={ card.strMealThumb }
-            alt="thumb"
-          />
-          <p
-            className="cardName"
-            data-testid={ `${index}-card-name` }
-          >
-            {card.strMeal}
-          </p>
+          <button type="button" onClick={ () => cardClick(card) }>
+            <img
+              data-testid={ `${index}-card-img` }
+              src={ card.strMealThumb }
+              alt="thumb"
+            />
+            <p
+              className="cardName"
+              data-testid={ `${index}-card-name` }
+            >
+              {card.strMeal}
+            </p>
+          </button>
         </div>
       ))}
     </div>
