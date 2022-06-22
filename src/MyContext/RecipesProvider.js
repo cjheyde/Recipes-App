@@ -100,29 +100,32 @@ function RecipesProvider({ children }) {
     if (mealIngredientApi === null && mealNameApi === null) {
       global.alert('Sorry, we haven\'t found any recipes for these filters.');
     }
-    if (radioSelected.radio === 'ingredient' && mealIngredientApi.length === 1) {
-      history.push(`/foods/${mealIngredientApi[0].idMeal}`);
-    } else if (radioSelected.radio === 'name' && mealNameApi.length === 1) {
-      history.push(`/foods/${mealNameApi[0].idMeal}`);
-    } else if (radioSelected.radio === 'first-letter'
-        && mealFirstLetterApi.length === 1) {
-      history.push(`/foods/${mealFirstLetterApi[0].idMeal}`);
+    if (mealIngredientApi !== null && mealNameApi !== null) {
+      if (radioSelected.radio === 'ingredient' && mealIngredientApi.length === 1) {
+        history.push(`/foods/${mealIngredientApi[0].idMeal}`);
+      } else if (radioSelected.radio === 'name' && mealNameApi.length === 1) {
+        history.push(`/foods/${mealNameApi[0].idMeal}`);
+      } else if (radioSelected.radio === 'first-letter'
+          && mealFirstLetterApi.length === 1) {
+        history.push(`/foods/${mealFirstLetterApi[0].idMeal}`);
+      }
     }
   };
 
   const searchBtnCocktailsDrinks = () => {
-    console.log(cocktailsIngredientApi, cocktailsNameApi);
     if (cocktailsIngredientApi.length === 0 && cocktailsNameApi === null) {
       global.alert('Sorry, we haven\'t found any recipes for these filters.');
     }
-    if (radioSelected.radio === 'ingredient'
-    && cocktailsIngredientApi.length === 1) {
-      history.push(`/drinks/${cocktailsIngredientApi[0].idDrink}`);
-    } else if (radioSelected.radio === 'name' && cocktailsNameApi.length === 1) {
-      history.push(`/drinks/${cocktailsNameApi[0].idDrink}`);
-    } else if (radioSelected.radio === 'first-letter'
-        && cocktailsFirstLetterApi.length === 1) {
-      history.push(`/drinks/${cocktailsFirstLetterApi[0].idDrink}`);
+    if (cocktailsNameApi !== null) {
+      if (radioSelected.radio === 'ingredient'
+      && cocktailsIngredientApi.length === 1) {
+        history.push(`/drinks/${cocktailsIngredientApi[0].idDrink}`);
+      } else if (radioSelected.radio === 'name' && cocktailsNameApi.length === 1) {
+        history.push(`/drinks/${cocktailsNameApi[0].idDrink}`);
+      } else if (radioSelected.radio === 'first-letter'
+          && cocktailsFirstLetterApi.length === 1) {
+        history.push(`/drinks/${cocktailsFirstLetterApi[0].idDrink}`);
+      }
     }
   };
 
