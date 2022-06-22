@@ -31,6 +31,10 @@ function Foods() {
     setIsfiltered(true);
   }
 
+  function onClickAll() {
+
+  }
+
   return (
     <>
       <Header />
@@ -49,6 +53,14 @@ function Foods() {
               </button>
             </div>
           ))}
+        <button
+          type="button"
+          data-testid="All-category-filter"
+          // isfiltered={ isfiltered }
+          onClick={ () => onClickAll() }
+        >
+          All
+        </button>
       </div>
       <CardsMeals />
       <Footer />

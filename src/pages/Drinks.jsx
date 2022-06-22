@@ -41,6 +41,14 @@ function Drinks() {
               </button>
             </div>
           ))}
+        <button
+          type="button"
+          data-testid="All-category-filter"
+          // isfiltered={ isfiltered }
+          onClick={ () => onClickAll() }
+        >
+          All
+        </button>
       </div>
       <CardsDrink />
       <Footer />
