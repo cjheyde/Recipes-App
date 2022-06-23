@@ -25,7 +25,7 @@ function RecipesProvider({ children }) {
   const [foodCategoryData, setFoodCategoryData] = useState([]);
   const [arrayFoods, setArrayFoods] = useState([]);
   const [drinkCategoryData, setDrinkCategoryData] = useState([]);
-  const [arrayDrinks, setArrayDrinks] = useState([]);
+  const [arrayDrinks, setArrayDrinks] = useState();
 
   // req.75 a 77
   const [explFoodIngred, setExplFoodIngred] = useState([]);
@@ -91,6 +91,7 @@ function RecipesProvider({ children }) {
         const responseName = await fetch(urlName);
         const { meals } = await responseName.json();
         setMealNameApi(meals);
+        setArrayCards(meals);
       } catch (error) {
         return error;
       }
@@ -108,7 +109,7 @@ function RecipesProvider({ children }) {
       }
     };
     fetchMealsFirstLetter();
-  }, [userInput, arrayCards]);
+  }, [userInput]);
 
   useEffect(() => {
     const fetchCocktailsIngredientData = async () => {
@@ -130,6 +131,7 @@ function RecipesProvider({ children }) {
         const responseName = await fetch(urlName);
         const { drinks } = await responseName.json();
         setCocktailsNameApi(drinks);
+        setArrayCards(drinks);
       } catch (error) {
         return error;
       }
@@ -195,14 +197,6 @@ function RecipesProvider({ children }) {
     }
   };
 
-  const alertEmptyArray = () => {
-    console.log(arrayFoods.length);
-    if (arrayFoods === null) {
-      global.alert('Sorry, we haven"t found any recipes for these filters.');
-    }
-  };
-
-  console.log(randomFoodAndDrinks.food[0]);
   const context = {
     mealIngredientApi,
     mealNameApi,
@@ -214,7 +208,6 @@ function RecipesProvider({ children }) {
     cocktailsFirstLetterApi,
     searchBtnMeals,
     searchBtnCocktailsDrinks,
-    alertEmptyArray,
     arrayFoods,
     setArrayFoods,
     arrayDrinks,

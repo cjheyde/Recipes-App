@@ -18,11 +18,6 @@ function Drinks() {
   } else {
     newDrinkCategoryData = drinkCategoryData;
   }
-  console.log(newDrinkCategoryData);
-  function onClickFilterDrinkCategory() {
-    // drinkData.filter((drinkCategory) => drinkCategory);
-    console.log('onlcickDrinkCategory');
-  }
 
   return (
     <>
@@ -35,7 +30,7 @@ function Drinks() {
               <button
                 type="button"
                 data-testid={ `${category.strCategory}-category-filter` }
-                onClick={ onClickFilterDrinkCategory }
+                // onClick={ onClickFilterDrinkCategory }
               >
                 { category.strCategory }
               </button>
@@ -44,7 +39,6 @@ function Drinks() {
         <button
           type="button"
           data-testid="All-category-filter"
-          // isfiltered={ isfiltered }
           onClick={ () => onClickAll() }
         >
           All
