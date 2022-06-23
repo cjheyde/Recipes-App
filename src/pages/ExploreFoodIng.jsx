@@ -1,16 +1,26 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import headerContext from '../MyContext/headerContext';
 import RecipesContext from '../MyContext/RecipesContext';
 import fetchAPI from '../services/api';
 
 const doze = 12;
 
 function ExploreFoodIng() {
+  const { explFoodIngred, setArrayCards } = useContext(RecipesContext);
   const {
-    explFoodIngred, setArrayCards,
-  } = useContext(RecipesContext);
+  //  setHeaderState,
+    setSearchBar,
+    setFoods,
+  } = useContext(headerContext);
+
+  useEffect(() => {
+  //  setHeaderState('Explore Ingredients');
+    setSearchBar(false);
+    setFoods(false);
+  }, []);
 
   const history = useHistory();
 
