@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import headerContext from '../MyContext/headerContext';
 import Header from '../components/Header';
@@ -7,17 +7,11 @@ import Footer from '../components/Footer';
 function Explore() {
   const { setHeaderState, setSearchBar, setFoods } = useContext(headerContext);
 
-  const handleExploreFoods = () => {
-    setHeaderState('Explore Foods');
+  useEffect(() => {
+    setHeaderState('Explore');
     setSearchBar(false);
     setFoods(false);
-  };
-
-  const handleExploreDrinks = () => {
-    setHeaderState('Explore Drinks');
-    setSearchBar(false);
-    setFoods(false);
-  };
+  }, []);
 
   return (
     <>
@@ -25,7 +19,6 @@ function Explore() {
       <Link to="/explore/foods">
         <button
           type="button"
-          onClick={ handleExploreFoods }
           src="src/images/drinkIcon.svg"
           data-testid="explore-foods"
         >
@@ -35,7 +28,6 @@ function Explore() {
       <Link to="/explore/drinks">
         <button
           type="button"
-          onClick={ handleExploreDrinks }
           src="src/images/drinkIcon.svg"
           data-testid="explore-drinks"
         >

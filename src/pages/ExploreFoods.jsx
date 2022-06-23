@@ -1,12 +1,18 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import headerContext from '../MyContext/headerContext';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 function ExploreFoods() {
-  const { setHeaderState, setSearchBar, setFoods } = useContext(headerContext);
   const history = useHistory();
+  const { setHeaderState, setSearchBar, setFoods } = useContext(headerContext);
+
+  useEffect(() => {
+    setHeaderState('Explore Foods');
+    setSearchBar(false);
+    setFoods(false);
+  }, []);
 
   const randomClick = async () => {
     try {
@@ -20,16 +26,10 @@ function ExploreFoods() {
   };
 
   const handleByIngredient = () => {
-    setHeaderState('Explore Ingredient');
-    setSearchBar(false);
-    setFoods(false);
     history.push('/explore/foods/ingredients');
   };
 
   const handleByNationality = () => {
-    setHeaderState('Explore Nationalities');
-    setSearchBar(false);
-    setFoods(true);
     history.push('/explore/foods/nationalities');
   };
 
