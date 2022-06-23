@@ -30,7 +30,7 @@ function Drinks() {
               <button
                 type="button"
                 data-testid={ `${category.strCategory}-category-filter` }
-                onClick={ onClickFilterDrinkCategory }
+                // onClick={ onClickFilterDrinkCategory }
               >
                 { category.strCategory }
               </button>

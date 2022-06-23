@@ -12,10 +12,6 @@ function CardsDrink() {
   }
   const history = useHistory();
 
-  function cardClick(card) {
-    history.push(`/drinks/${card.idDrink}`);
-  }
-
   return (
     <div>
       { arrayCards !== null && arrayCards !== undefined
@@ -24,7 +20,7 @@ function CardsDrink() {
           data-testid={ `${index}-recipe-card` }
           key={ index }
         >
-          <button type="button" onClick={ () => cardClick(card) }>
+          <button type="button" onClick={ () => history.push(`/drinks/${card.idDrink}`) }>
             <img
               data-testid={ `${index}-card-img` }
               src={ card.strDrinkThumb }

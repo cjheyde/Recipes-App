@@ -20,7 +20,11 @@ function CardsMeals() {
           data-testid={ `${index}-recipe-card` }
           key={ index }
         >
-          <button type="button" onClick={ () => history.push(`/foods/${card.idMeal}`) }>
+          <button
+            data-testid={ `${index}-card-img` }
+            type="button"
+            onClick={ () => history.push(`/foods/${card.idMeal}`) }
+          >
             <img
               data-testid={ `${index}-card-img` }
               src={ card.strMealThumb }

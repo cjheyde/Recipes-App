@@ -25,7 +25,7 @@ function RecipesProvider({ children }) {
   const [foodCategoryData, setFoodCategoryData] = useState([]);
   const [arrayFoods, setArrayFoods] = useState([]);
   const [drinkCategoryData, setDrinkCategoryData] = useState([]);
-  const [arrayDrinks, setArrayDrinks] = useState([]);
+  const [arrayDrinks, setArrayDrinks] = useState();
 
   async function fetchFoods() {
     const finalData = await fetchAPI('https://www.themealdb.com/api/json/v1/1/search.php?s=');
@@ -73,6 +73,7 @@ function RecipesProvider({ children }) {
         const responseName = await fetch(urlName);
         const { meals } = await responseName.json();
         setMealNameApi(meals);
+        setArrayCards(meals);
       } catch (error) {
         return error;
       }
@@ -90,7 +91,7 @@ function RecipesProvider({ children }) {
       }
     };
     fetchMealsFirstLetter();
-  }, [userInput, arrayCards]);
+  }, [userInput]);
 
   useEffect(() => {
     const fetchCocktailsIngredientData = async () => {
@@ -112,6 +113,7 @@ function RecipesProvider({ children }) {
         const responseName = await fetch(urlName);
         const { drinks } = await responseName.json();
         setCocktailsNameApi(drinks);
+        setArrayCards(drinks);
       } catch (error) {
         return error;
       }
