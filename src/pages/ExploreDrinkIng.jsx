@@ -3,25 +3,27 @@ import { useHistory } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import RecipesContext from '../MyContext/RecipesContext';
+import fetchAPI from '../services/api';
 
 const doze = 12;
 
 function ExploreDrinkIng() {
-  const { explDrinkIngred, setExplDrinkIngred } = useContext(RecipesContext);
+  const {
+    explDrinkIngred, setExplDrinkIngred, setArrayCards,
+  } = useContext(RecipesContext);
 
   if (explDrinkIngred !== null && explDrinkIngred !== undefined
     && explDrinkIngred.length > doze) {
     const newExplDrinkIngred = explDrinkIngred.slice(0, doze);
     setExplDrinkIngred(newExplDrinkIngred);
   }
-  console.log(explDrinkIngred);
 
   const history = useHistory();
 
-  function ingredientClick(ingredient) {
+  async function ingredientClick(ingredientName) {
+    const newData = await fetchAPI(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${ingredientName}`);
+    setArrayCards(newData.drinks);
     history.push('/drinks');
-    // filtrar na tela drinks as receitas que contém o ingrediente escolhido
-    console.log(ingredient);
   }
 
   return (
@@ -34,7 +36,10 @@ function ExploreDrinkIng() {
               data-testid={ `${index}-ingredient-card` }
               key={ index }
             >
-              <button type="button" onClick={ () => ingredientClick(ingredient) }>
+              <button
+                type="button"
+                onClick={ () => ingredientClick(ingredient.strIngredient1) }
+              >
                 <img
                   data-testid={ `${index}-card-img` }
                   src={ `https://www.thecocktaildb.com/images/ingredients/${ingredient.strIngredient1}-Small.png` }

@@ -11,7 +11,7 @@ const cinco = 5;
 
 function Foods() {
   const {
-    foodCategoryData, setFoodCategoryData,
+    foodCategoryData, setFoodCategoryData, setArrayCards,
   } = useContext(RecipesContext);
 
   if (foodCategoryData !== null && foodCategoryData !== undefined
@@ -22,9 +22,10 @@ function Foods() {
 
   async function onClickFilterFoodCategory(category) {
     const finalData = await fetchAPI(
-      `www.themealdb.com/api/json/v1/1/filter.php?c=${category}`,
+      `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`,
     );
     console.log(finalData);
+    setArrayCards(finalData.meals);
   }
 
   function onClickAll() {

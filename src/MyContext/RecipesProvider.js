@@ -30,6 +30,8 @@ function RecipesProvider({ children }) {
   // req.75 a 77
   const [explFoodIngred, setExplFoodIngred] = useState([]);
   const [explDrinkIngred, setExplDrinkIngred] = useState([]);
+  const [ingrSelected, setIngrSelected] = useState();
+  const [arrayToDisplay, setArrayToDisplay] = useState([]);
 
   async function fetchExplFoodIngred() {
     const finalData = await fetchAPI('https://www.themealdb.com/api/json/v1/1/list.php?i=list');
@@ -223,6 +225,10 @@ function RecipesProvider({ children }) {
     setExplFoodIngred,
     explDrinkIngred,
     setExplDrinkIngred,
+    ingrSelected,
+    setIngrSelected,
+    arrayToDisplay,
+    setArrayToDisplay,
   };
 
   return (

@@ -3,25 +3,28 @@ import { useHistory } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import RecipesContext from '../MyContext/RecipesContext';
+import fetchAPI from '../services/api';
 
 const doze = 12;
 
 function ExploreFoodIng() {
-  const { explFoodIngred, setExplFoodIngred } = useContext(RecipesContext);
+  const {
+    explFoodIngred, setExplFoodIngred, setArrayCards,
+  } = useContext(RecipesContext);
 
   if (explFoodIngred !== null && explFoodIngred !== undefined
     && explFoodIngred.length > doze) {
     const newExplFoodIngred = explFoodIngred.slice(0, doze);
     setExplFoodIngred(newExplFoodIngred);
   }
-  console.log(explFoodIngred);
 
   const history = useHistory();
 
-  function ingredientClick(ingredient) {
+  async function ingredientClick(ingredientName) {
+    const newData = await fetchAPI(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${ingredientName}`);
+    console.log(ingredientName);
+    setArrayCards(newData.meals);
     history.push('/foods');
-    // filtrar na tela foods as receitas que contém o ingrediente escolhido
-    console.log(ingredient);
   }
 
   return (
@@ -34,7 +37,10 @@ function ExploreFoodIng() {
               data-testid={ `${index}-ingredient-card` }
               key={ index }
             >
-              <button type="button" onClick={ () => ingredientClick(ingredient) }>
+              <button
+                type="button"
+                onClick={ () => ingredientClick(ingredient.strIngredient) }
+              >
                 <img
                   data-testid={ `${index}-card-img` }
                   src={ `https://www.themealdb.com/images/ingredients/${ingredient.strIngredient}-Small.png` }
