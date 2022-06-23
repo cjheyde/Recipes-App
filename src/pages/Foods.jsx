@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import Header from '../components/Header';
 import CardsMeals from '../components/CardsMeals';
 import SearchBarHeader from '../components/SearchBarHeader';
@@ -10,25 +10,21 @@ import fetchAPI from '../services/api';
 const cinco = 5;
 
 function Foods() {
-  const [isfiltered, setIsfiltered] = useState(false);
   const {
-    foodCategoryData,
+    foodCategoryData, setFoodCategoryData,
   } = useContext(RecipesContext);
 
-  let { newFoodCategoryData } = [];
-  if (foodCategoryData.length > cinco) {
-    newFoodCategoryData = foodCategoryData.slice(0, cinco);
-  } else {
-    newFoodCategoryData = foodCategoryData;
+  if (foodCategoryData !== null && foodCategoryData !== undefined
+    && foodCategoryData.length > cinco) {
+    const newFoodCategoryData = foodCategoryData.slice(0, cinco);
+    setFoodCategoryData(newFoodCategoryData);
   }
 
   async function onClickFilterFoodCategory(category) {
     const finalData = await fetchAPI(
       `www.themealdb.com/api/json/v1/1/filter.php?c=${category}`,
     );
-    // newFoodCategoryData = finalData.meals;
     console.log(finalData);
-    setIsfiltered(true);
   }
 
   function onClickAll() {
@@ -40,13 +36,12 @@ function Foods() {
       <Header />
       <SearchBarHeader />
       <div className="Filters">
-        { (newFoodCategoryData !== undefined && isfiltered === false)
-          && newFoodCategoryData.map((category, index) => (
+        { foodCategoryData !== undefined
+          && foodCategoryData.map((category, index) => (
             <div key={ index }>
               <button
                 type="button"
                 data-testid={ `${category.strCategory}-category-filter` }
-                isfiltered={ isfiltered }
                 onClick={ () => onClickFilterFoodCategory(category.strCategory) }
               >
                 { category.strCategory }
@@ -56,7 +51,6 @@ function Foods() {
         <button
           type="button"
           data-testid="All-category-filter"
-          // isfiltered={ isfiltered }
           onClick={ () => onClickAll() }
         >
           All
