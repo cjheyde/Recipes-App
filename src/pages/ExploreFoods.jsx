@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+import headerContext from '../MyContext/headerContext';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 function ExploreFoods() {
+  const { setHeaderState, setSearchBar, setFoods } = useContext(headerContext);
   const history = useHistory();
+
   const randomClick = async () => {
     try {
       const urlRandom = 'https://www.themealdb.com/api/json/v1/1/random.php';
@@ -16,6 +19,20 @@ function ExploreFoods() {
     }
   };
 
+  const handleByIngredient = () => {
+    setHeaderState('Explore Ingredient');
+    setSearchBar(false);
+    setFoods(false);
+    history.push('/explore/foods/ingredients');
+  };
+
+  const handleByNationality = () => {
+    setHeaderState('Explore Nationalities');
+    setSearchBar(false);
+    setFoods(true);
+    history.push('/explore/foods/nationalities');
+  };
+
   return (
     <>
       <Header />
@@ -23,14 +40,14 @@ function ExploreFoods() {
         <button
           type="button"
           data-testid="explore-by-ingredient"
-          onClick={ () => history.push('/explore/foods/ingredients') }
+          onClick={ handleByIngredient }
         >
           By Ingredient
         </button>
         <button
           type="button"
           data-testid="explore-by-nationality"
-          onClick={ () => history.push('/explore/foods/nationalities') }
+          onClick={ handleByNationality }
         >
           By Nationality
         </button>
