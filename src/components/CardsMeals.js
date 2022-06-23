@@ -24,6 +24,7 @@ function CardsMeals() {
             data-testid={ `${index}-card-img` }
             type="button"
             onClick={ () => history.push(`/foods/${card.idMeal}`) }
+            src={ card.strMealThumb }
           >
             <img
               data-testid={ `${index}-card-img` }
