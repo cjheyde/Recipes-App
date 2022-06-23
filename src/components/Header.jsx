@@ -28,14 +28,14 @@ function Header() {
   return (
     <section className="header-container">
       <Link to="/profile">
-        <button
-          type="button"
-          name="profile"
+        <input
+          type="image"
+          name="Profile"
           onClick={ handleProfile }
           src={ profileIcon }
-        >
-          <img data-testid="profile-top-btn" src={ profileIcon } alt="profile icon" />
-        </button>
+          alt="Profile Icon"
+          data-testid="profile-top-btn"
+        />
       </Link>
 
       <div className="header-title">
@@ -44,23 +44,24 @@ function Header() {
 
       <div>
         {(fExploreNationality || foods || drinks) && (
-          <button
-            type="button"
+          <input
+            type="image"
             onClick={ () => setSearchBar(!searchBar) }
             src={ searchIcon }
-          >
-            <img data-testid="search-top-btn" src={ searchIcon } alt="search icon" />
-          </button>
+            alt="Search Icon"
+            data-testid="search-top-btn"
+          />
         )}
       </div>
-      {searchBar
-      && <input
-        type="text"
-        data-testid="search-input"
-        name="userInput"
-        value={ userInput }
-        onChange={ inputChange }
-      />}
+      {searchBar && (
+        <input
+          type="text"
+          data-testid="search-input"
+          name="userInput"
+          value={ userInput }
+          onChange={ inputChange }
+        />
+      )}
     </section>
   );
 }

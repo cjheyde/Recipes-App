@@ -1,12 +1,25 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import RecipesContext from '../MyContext/RecipesContext';
+import headerContext from '../MyContext/headerContext';
 
 function ExploreDrink() {
   const history = useHistory();
   const { randomFoodAndDrinks } = useContext(RecipesContext);
+  const { setHeaderState, setSearchBar, setFoods } = useContext(headerContext);
+
+  useEffect(() => {
+    setHeaderState('Explore Drinks');
+    setSearchBar(false);
+    setFoods(false);
+  }, []);
+
+  const handleByIngredient = () => {
+    history.push('/explore/drinks/ingredients');
+  };
+
   return (
     <>
       <Header />
@@ -14,7 +27,7 @@ function ExploreDrink() {
         <button
           type="button"
           data-testid="explore-by-ingredient"
-          onClick={ () => history.push('/explore/drinks/ingredients') }
+          onClick={ handleByIngredient }
         >
           By Ingredient
         </button>

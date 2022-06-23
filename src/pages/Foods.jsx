@@ -1,6 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import Header from '../components/Header';
 import CardsMeals from '../components/CardsMeals';
+import headerContext from '../MyContext/headerContext';
 import SearchBarHeader from '../components/SearchBarHeader';
 import Footer from '../components/Footer';
 import RecipesContext from '../MyContext/RecipesContext';
@@ -10,9 +11,17 @@ import fetchAPI from '../services/api';
 const cinco = 5;
 
 function Foods() {
+  const { setHeaderState, setSearchBar, setFoods } = useContext(headerContext);
+
   const {
     foodCategoryData, setFoodCategoryData,
   } = useContext(RecipesContext);
+
+  useEffect(() => {
+    setHeaderState('Foods');
+    setSearchBar(false);
+    setFoods(true);
+  }, []);
 
   if (foodCategoryData !== null && foodCategoryData !== undefined
     && foodCategoryData.length > cinco) {
