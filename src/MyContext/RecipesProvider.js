@@ -177,13 +177,6 @@ function RecipesProvider({ children }) {
     }
   };
 
-  const alertEmptyArray = () => {
-    console.log(arrayFoods.length);
-    if (arrayFoods === null) {
-      global.alert('Sorry, we haven"t found any recipes for these filters.');
-    }
-  };
-  console.log(randomFoodAndDrinks.food[0]);
   const context = {
     mealIngredientApi,
     mealNameApi,
@@ -195,7 +188,6 @@ function RecipesProvider({ children }) {
     cocktailsFirstLetterApi,
     searchBtnMeals,
     searchBtnCocktailsDrinks,
-    alertEmptyArray,
     arrayFoods,
     setArrayFoods,
     arrayDrinks,
