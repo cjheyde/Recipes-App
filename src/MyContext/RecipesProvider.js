@@ -27,6 +27,22 @@ function RecipesProvider({ children }) {
   const [drinkCategoryData, setDrinkCategoryData] = useState([]);
   const [arrayDrinks, setArrayDrinks] = useState();
 
+  // req.75 a 77
+  const [explFoodIngred, setExplFoodIngred] = useState([]);
+  const [explDrinkIngred, setExplDrinkIngred] = useState([]);
+
+  async function fetchExplFoodIngred() {
+    const finalData = await fetchAPI('https://www.themealdb.com/api/json/v1/1/list.php?i=list');
+    setExplFoodIngred(finalData.meals);
+  }
+
+  async function fetchExplDrinkIngred() {
+    const finalData = await
+    fetchAPI('https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list');
+    setExplDrinkIngred(finalData.drinks);
+  }
+
+  // req.75 a 77
   async function fetchFoods() {
     const finalData = await fetchAPI('https://www.themealdb.com/api/json/v1/1/search.php?s=');
     setArrayFoods(finalData.meals);
@@ -52,6 +68,8 @@ function RecipesProvider({ children }) {
     fetchDrinks();
     fetchFoodCategories();
     fetchDrinkCategories();
+    fetchExplFoodIngred();
+    fetchExplDrinkIngred();
   }, []);
 
   useEffect(() => {
@@ -201,6 +219,10 @@ function RecipesProvider({ children }) {
     setFoodCategoryData,
     drinkCategoryData,
     setDrinkCategoryData,
+    explFoodIngred,
+    setExplFoodIngred,
+    explDrinkIngred,
+    setExplDrinkIngred,
   };
 
   return (
