@@ -9,14 +9,8 @@ const doze = 12;
 
 function ExploreFoodIng() {
   const {
-    explFoodIngred, setExplFoodIngred, setArrayCards,
+    explFoodIngred, setArrayCards,
   } = useContext(RecipesContext);
-
-  if (explFoodIngred !== null && explFoodIngred !== undefined
-    && explFoodIngred.length > doze) {
-    const newExplFoodIngred = explFoodIngred.slice(0, doze);
-    setExplFoodIngred(newExplFoodIngred);
-  }
 
   const history = useHistory();
 
@@ -32,7 +26,7 @@ function ExploreFoodIng() {
       <Header />
       <div>
         { explFoodIngred !== null && explFoodIngred !== undefined
-          && explFoodIngred.map((ingredient, index) => (
+          && explFoodIngred.slice(0, doze).map((ingredient, index) => (
             <div
               data-testid={ `${index}-ingredient-card` }
               key={ index }
