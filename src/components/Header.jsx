@@ -14,6 +14,8 @@ function Header() {
     searchBar,
     setSearchBar,
     setFoods,
+    inputChange,
+    userInput,
   } = useContext(headerContext);
 
   const handleProfile = ({ target }) => {
@@ -26,14 +28,14 @@ function Header() {
   return (
     <section className="header-container">
       <Link to="/profile">
-        <input
-          type="image"
+        <button
+          type="button"
           name="profile"
           onClick={ handleProfile }
           src={ profileIcon }
-          alt={ profileIcon }
-          data-testid="profile-top-btn"
-        />
+        >
+          <img data-testid="profile-top-btn" src={ profileIcon } alt="profile icon" />
+        </button>
       </Link>
 
       <div className="header-title">
@@ -42,17 +44,23 @@ function Header() {
 
       <div>
         {(fExploreNationality || foods || drinks) && (
-          <input
-            type="image"
+          <button
+            type="button"
             onClick={ () => setSearchBar(!searchBar) }
             src={ searchIcon }
-            alt={ searchIcon }
-            data-testid="search-top-btn"
-          />
+          >
+            <img data-testid="search-top-btn" src={ searchIcon } alt="search icon" />
+          </button>
         )}
       </div>
       {searchBar
-      && <input type="text" data-testid="search-input" />}
+      && <input
+        type="text"
+        data-testid="search-input"
+        name="userInput"
+        value={ userInput }
+        onChange={ inputChange }
+      />}
     </section>
   );
 }

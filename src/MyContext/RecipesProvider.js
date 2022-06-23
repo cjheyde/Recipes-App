@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
-
 import RecipesContext from './RecipesContext';
+import headerContext from './headerContext';
+import fetchAPI from '../services/api';
 
 function RecipesProvider({ children }) {
+  const { userInput } = useContext(headerContext);
   const history = useHistory();
   const [mealIngredientApi, setMealIngredientApi] = useState([]);
   const [mealNameApi, setMealNameApi] = useState([]);
@@ -16,11 +18,64 @@ function RecipesProvider({ children }) {
     radio: '',
   });
   const [arrayCards, setArrayCards] = useState([]);
+  const [randomFoodAndDrinks, setRandomFoodAndDrinks] = useState({
+    food: {},
+    drink: {},
+  });
+  const [foodCategoryData, setFoodCategoryData] = useState([]);
+  const [arrayFoods, setArrayFoods] = useState([]);
+  const [drinkCategoryData, setDrinkCategoryData] = useState([]);
+  const [arrayDrinks, setArrayDrinks] = useState();
+
+  // req.75 a 77
+  const [explFoodIngred, setExplFoodIngred] = useState([]);
+  const [explDrinkIngred, setExplDrinkIngred] = useState([]);
+
+  async function fetchExplFoodIngred() {
+    const finalData = await fetchAPI('https://www.themealdb.com/api/json/v1/1/list.php?i=list');
+    setExplFoodIngred(finalData.meals);
+  }
+
+  async function fetchExplDrinkIngred() {
+    const finalData = await
+    fetchAPI('https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list');
+    setExplDrinkIngred(finalData.drinks);
+  }
+
+  // req.75 a 77
+  async function fetchFoods() {
+    const finalData = await fetchAPI('https://www.themealdb.com/api/json/v1/1/search.php?s=');
+    setArrayFoods(finalData.meals);
+  }
+
+  async function fetchDrinks() {
+    const finalData = await fetchAPI('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
+    setArrayDrinks(finalData.drinks);
+  }
+
+  async function fetchFoodCategories() {
+    const finalData = await fetchAPI('https://www.themealdb.com/api/json/v1/1/list.php?c=list');
+    setFoodCategoryData(finalData.meals);
+  }
+
+  async function fetchDrinkCategories() {
+    const finalData = await fetchAPI('https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list');
+    setDrinkCategoryData(finalData.drinks);
+  }
+
+  useEffect(() => {
+    fetchFoods();
+    fetchDrinks();
+    fetchFoodCategories();
+    fetchDrinkCategories();
+    fetchExplFoodIngred();
+    fetchExplDrinkIngred();
+  }, []);
 
   useEffect(() => {
     const fetchMealsIngredientData = async () => {
       try {
-        const url = 'https://www.themealdb.com/api/json/v1/1/filter.php?i={ingrediente}';
+        const url = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${userInput}`;
         const response = await fetch(url);
         const { meals } = await response.json();
         setMealIngredientApi(meals);
@@ -32,10 +87,11 @@ function RecipesProvider({ children }) {
 
     const fetchMealsNameData = async () => {
       try {
-        const urlName = 'https://www.themealdb.com/api/json/v1/1/search.php?s=Arrabiata';
+        const urlName = `https://www.themealdb.com/api/json/v1/1/search.php?s=${userInput}`;
         const responseName = await fetch(urlName);
         const { meals } = await responseName.json();
         setMealNameApi(meals);
+        setArrayCards(meals);
       } catch (error) {
         return error;
       }
@@ -44,7 +100,7 @@ function RecipesProvider({ children }) {
 
     const fetchMealsFirstLetter = async () => {
       try {
-        const urlFirstLetter = 'https://www.themealdb.com/api/json/v1/1/search.php?f=a';
+        const urlFirstLetter = `https://www.themealdb.com/api/json/v1/1/search.php?f=${userInput}`;
         const responseFirstLetter = await fetch(urlFirstLetter);
         const { meals } = await responseFirstLetter.json();
         setMealFirstLetterApi(meals);
@@ -53,14 +109,15 @@ function RecipesProvider({ children }) {
       }
     };
     fetchMealsFirstLetter();
-  }, []);
+  }, [userInput]);
 
   useEffect(() => {
     const fetchCocktailsIngredientData = async () => {
       try {
-        const url = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=rice';
+        const url = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${userInput}`;
         const response = await fetch(url);
         const { drinks } = await response.json();
+        console.log(drinks);
         setCocktailsIngredientApi(drinks);
       } catch (error) {
         return error;
@@ -70,19 +127,19 @@ function RecipesProvider({ children }) {
 
     const fetchCocktailsNameData = async () => {
       try {
-        const urlName = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=margarita';
+        const urlName = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${userInput}`;
         const responseName = await fetch(urlName);
         const { drinks } = await responseName.json();
         setCocktailsNameApi(drinks);
+        setArrayCards(drinks);
       } catch (error) {
         return error;
       }
     };
     fetchCocktailsNameData();
-
     const fetchCocktailsFirstLetter = async () => {
       try {
-        const urlFirstLetter = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?f=a';
+        const urlFirstLetter = `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${userInput}`;
         const responseFirstLetter = await fetch(urlFirstLetter);
         const { drinks } = await responseFirstLetter.json();
         setCocktailsFirstLetterApi(drinks);
@@ -91,34 +148,52 @@ function RecipesProvider({ children }) {
       }
     };
     fetchCocktailsFirstLetter();
-  }, []);
+    const randomApi = async () => {
+      try {
+        const urlRandomDirnks = 'https://www.thecocktaildb.com/api/json/v1/1/random.php';
+        const responseRandomDirnks = await fetch(urlRandomDirnks);
+        const { drinks } = await responseRandomDirnks.json();
+        setRandomFoodAndDrinks({
+          ...randomFoodAndDrinks,
+          drink: drinks,
+        });
+      } catch (error) {
+        return console.log(error);
+      }
+    };
+    randomApi();
+  }, [userInput]);
 
   const searchBtnMeals = () => {
-    if (radioSelected.radio === 'ingredient' && mealIngredientApi.length === 1) {
-      history.push(`/foods/${mealIngredientApi[0].idMeal}`);
-    } else if (radioSelected.radio === 'name' && mealNameApi.length === 1) {
-      history.push(`/foods/${mealNameApi[0].idMeal}`);
-    } else if (radioSelected.radio === 'first-letter'
-        && mealFirstLetterApi.length === 1) {
-      history.push(`/foods/${mealFirstLetterApi[0].idMeal}`);
+    if (mealIngredientApi === null || mealNameApi === null) {
+      global.alert('Sorry, we haven\'t found any recipes for these filters.');
+    }
+    if (mealIngredientApi !== null && mealNameApi !== null) {
+      if (radioSelected.radio === 'ingredient' && mealIngredientApi.length === 1) {
+        history.push(`/foods/${mealIngredientApi[0].idMeal}`);
+      } else if (radioSelected.radio === 'name' && mealNameApi.length === 1) {
+        history.push(`/foods/${mealNameApi[0].idMeal}`);
+      } else if (radioSelected.radio === 'first-letter'
+          && mealFirstLetterApi.length === 1) {
+        history.push(`/foods/${mealFirstLetterApi[0].idMeal}`);
+      }
     }
   };
 
   const searchBtnCocktailsDrinks = () => {
-    if (radioSelected.radio === 'ingredient' && cocktailsIngredientApi.length === 1) {
-      history.push(`/cocktails/${cocktailsIngredientApi[0].idDrink}`);
-    } else if (radioSelected.radio === 'name' && cocktailsNameApi.length === 1) {
-      history.push(`/cocktails/${cocktailsNameApi[0].idDrink}`);
-    } else if (radioSelected.radio === 'first-letter'
-        && cocktailsFirstLetterApi.length === 1) {
-      history.push(`/cocktails/${cocktailsFirstLetterApi[0].idDrink}`);
+    if (cocktailsIngredientApi.length === 0 && cocktailsNameApi === null) {
+      global.alert('Sorry, we haven\'t found any recipes for these filters.');
     }
-  };
-
-  const alertEmptyArray = () => {
-    console.log(arrayCards.length);
-    if (arrayCards === null) {
-      global.alert('Sorry, we haven"t found any recipes for these filters.');
+    if (cocktailsNameApi !== null) {
+      if (radioSelected.radio === 'ingredient'
+      && cocktailsIngredientApi.length === 1) {
+        history.push(`/drinks/${cocktailsIngredientApi[0].idDrink}`);
+      } else if (radioSelected.radio === 'name' && cocktailsNameApi.length === 1) {
+        history.push(`/drinks/${cocktailsNameApi[0].idDrink}`);
+      } else if (radioSelected.radio === 'first-letter'
+          && cocktailsFirstLetterApi.length === 1) {
+        history.push(`/drinks/${cocktailsFirstLetterApi[0].idDrink}`);
+      }
     }
   };
 
@@ -133,9 +208,21 @@ function RecipesProvider({ children }) {
     cocktailsFirstLetterApi,
     searchBtnMeals,
     searchBtnCocktailsDrinks,
+    arrayFoods,
+    setArrayFoods,
+    arrayDrinks,
+    setArrayDrinks,
     arrayCards,
     setArrayCards,
-    alertEmptyArray,
+    randomFoodAndDrinks,
+    foodCategoryData,
+    setFoodCategoryData,
+    drinkCategoryData,
+    setDrinkCategoryData,
+    explFoodIngred,
+    setExplFoodIngred,
+    explDrinkIngred,
+    setExplDrinkIngred,
   };
 
   return (
