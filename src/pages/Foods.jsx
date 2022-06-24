@@ -1,6 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Header from '../components/Header';
 import CardsMeals from '../components/CardsMeals';
+import headerContext from '../MyContext/headerContext';
 import SearchBarHeader from '../components/SearchBarHeader';
 import Footer from '../components/Footer';
 import RecipesContext from '../MyContext/RecipesContext';
@@ -10,33 +11,45 @@ import '../CSS/Foods.css';
 const cinco = 5;
 
 function Foods() {
-  const {
-    foodCategoryData, setFoodCategoryData,
-  } = useContext(RecipesContext);
+  const { setHeaderState, setSearchBar, setFoods } = useContext(headerContext);
 
-  if (foodCategoryData !== null && foodCategoryData !== undefined
-    && foodCategoryData.length > cinco) {
-    const newFoodCategoryData = foodCategoryData.slice(0, cinco);
-    setFoodCategoryData(newFoodCategoryData);
+  useEffect(() => {
+    setHeaderState('Foods');
+    setSearchBar(false);
+    setFoods(true);
+  }, []);
+
+  const { foodCategoryData, setArrayCardsFoods } = useContext(RecipesContext);
+
+  const [toogleYes, setToogleYes] = useState(false);
+
+  async function onClickAll() {
+    const finalData = await fetchAPI(
+      'https://www.themealdb.com/api/json/v1/1/search.php?s=',
+    );
+    setArrayCardsFoods(finalData.meals);
   }
 
-  // async function onClickFilterFoodCategory(category) {
-  //   const finalData = await fetchAPI(
-  //     `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`,
-  //   );
-  // }
-
-  // function onClickAll() {
-
-  // }
+  async function onClickFilterFoodCategory(categoryName) {
+    const finalData = await fetchAPI(
+      `https://www.themealdb.com/api/json/v1/1/filter.php?c=${categoryName}`,
+    );
+    if (toogleYes === false) {
+      setArrayCardsFoods(finalData.meals);
+      setToogleYes(true);
+    } else {
+      onClickAll();
+      setToogleYes(false);
+    }
+  }
 
   return (
     <>
       <Header />
       <SearchBarHeader />
       <div className="Filters">
-        { foodCategoryData !== undefined
-          && foodCategoryData.map((category, index) => (
+        { foodCategoryData !== null && foodCategoryData !== undefined
+          && foodCategoryData.slice(0, cinco).map((category, index) => (
             <div key={ index }>
               <button
                 type="button"
