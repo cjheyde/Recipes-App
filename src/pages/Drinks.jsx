@@ -17,24 +17,15 @@ function Drinks() {
     setFoods(true);
   }, []);
 
-  const {
-    drinkCategoryData,
-  } = useContext(RecipesContext);
-
-  let { newDrinkCategoryData } = [];
-  if (drinkCategoryData.length > cinco) {
-    newDrinkCategoryData = drinkCategoryData.slice(0, cinco);
-  } else {
-    newDrinkCategoryData = drinkCategoryData;
-  }
+  const { drinkCategoryData } = useContext(RecipesContext);
 
   return (
     <>
       <Header />
       <SearchBarHeader />
       <div className="Filters">
-        { newDrinkCategoryData !== undefined
-          && newDrinkCategoryData.map((category, index) => (
+        { drinkCategoryData !== null && drinkCategoryData !== undefined
+          && drinkCategoryData.slice(0, cinco).map((category, index) => (
             <div key={ index }>
               <button
                 type="button"

@@ -13,21 +13,13 @@ const cinco = 5;
 function Foods() {
   const { setHeaderState, setSearchBar, setFoods } = useContext(headerContext);
 
-  const {
-    foodCategoryData, setFoodCategoryData,
-  } = useContext(RecipesContext);
-
   useEffect(() => {
     setHeaderState('Foods');
     setSearchBar(false);
     setFoods(true);
   }, []);
 
-  if (foodCategoryData !== null && foodCategoryData !== undefined
-    && foodCategoryData.length > cinco) {
-    const newFoodCategoryData = foodCategoryData.slice(0, cinco);
-    setFoodCategoryData(newFoodCategoryData);
-  }
+  const { foodCategoryData } = useContext(RecipesContext);
 
   async function onClickFilterFoodCategory(category) {
     const finalData = await fetchAPI(
@@ -45,8 +37,8 @@ function Foods() {
       <Header />
       <SearchBarHeader />
       <div className="Filters">
-        { foodCategoryData !== undefined
-          && foodCategoryData.map((category, index) => (
+        { foodCategoryData !== null && foodCategoryData !== undefined
+          && foodCategoryData.slice(0, cinco).map((category, index) => (
             <div key={ index }>
               <button
                 type="button"
