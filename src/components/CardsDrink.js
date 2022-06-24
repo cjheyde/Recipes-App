@@ -5,14 +5,14 @@ import RecipesContext from '../MyContext/RecipesContext';
 const doze = 12;
 
 function CardsDrink() {
-  const { arrayCards } = useContext(RecipesContext);
+  const { arrayCardsDrinks } = useContext(RecipesContext);
 
   const history = useHistory();
 
   return (
     <div>
-      { arrayCards !== null && arrayCards !== undefined
-      && arrayCards.slice(0, doze).map((card, index) => (
+      { arrayCardsDrinks !== null && arrayCardsDrinks !== undefined
+      && arrayCardsDrinks.slice(0, doze).map((card, index) => (
         <div
           data-testid={ `${index}-recipe-card` }
           key={ index }

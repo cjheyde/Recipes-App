@@ -26,8 +26,8 @@ function RecipesProvider({ children }) {
   const [arrayFoods, setArrayFoods] = useState([]);
   const [drinkCategoryData, setDrinkCategoryData] = useState([]);
   const [arrayDrinks, setArrayDrinks] = useState();
-
-  // req.75 a 77
+  const [arrayCardsFoods, setArrayCardsFoods] = useState([]);
+  const [arrayCardsDrinks, setArrayCardsDrinks] = useState([]);
   const [explFoodIngred, setExplFoodIngred] = useState([]);
   const [explDrinkIngred, setExplDrinkIngred] = useState([]);
 
@@ -91,7 +91,7 @@ function RecipesProvider({ children }) {
         const responseName = await fetch(urlName);
         const { meals } = await responseName.json();
         setMealNameApi(meals);
-        setArrayCards(meals);
+        setArrayCardsFoods(meals);
       } catch (error) {
         return error;
       }
@@ -131,7 +131,7 @@ function RecipesProvider({ children }) {
         const responseName = await fetch(urlName);
         const { drinks } = await responseName.json();
         setCocktailsNameApi(drinks);
-        setArrayCards(drinks);
+        setArrayCardsDrinks(drinks);
       } catch (error) {
         return error;
       }
@@ -223,6 +223,10 @@ function RecipesProvider({ children }) {
     setExplFoodIngred,
     explDrinkIngred,
     setExplDrinkIngred,
+    arrayCardsFoods,
+    setArrayCardsFoods,
+    arrayCardsDrinks,
+    setArrayCardsDrinks,
   };
 
   return (
