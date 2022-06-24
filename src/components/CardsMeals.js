@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import RecipesContext from '../MyContext/RecipesContext';
-import '../CSS/CardMeals.css';
+import '../CSS/Cards.css';
 
 const doze = 12;
 

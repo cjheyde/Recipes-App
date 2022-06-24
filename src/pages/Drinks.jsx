@@ -5,6 +5,7 @@ import SearchBarHeader from '../components/SearchBarHeader';
 import headerContext from '../MyContext/headerContext';
 import Footer from '../components/Footer';
 import RecipesContext from '../MyContext/RecipesContext';
+import fetchAPI from '../services/api';
 
 const cinco = 5;
 
@@ -17,7 +18,23 @@ function Drinks() {
     setFoods(true);
   }, []);
 
-  const { drinkCategoryData } = useContext(RecipesContext);
+  const {
+    drinkCategoryData, setArrayCardsDrinks,
+  } = useContext(RecipesContext);
+
+  async function onClickFilterDrinkCategory(categoryName) {
+    const finalData = await fetchAPI(
+      `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${categoryName}`,
+    );
+    setArrayCardsDrinks(finalData.drinks);
+  }
+
+  async function onClickAll() {
+    const finalData = await fetchAPI(
+      'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=',
+    );
+    setArrayCardsDrinks(finalData.drinks);
+  }
 
   return (
     <>
@@ -30,7 +47,7 @@ function Drinks() {
               <button
                 type="button"
                 data-testid={ `${category.strCategory}-category-filter` }
-                // onClick={ onClickFilterDrinkCategory }
+                onClick={ () => onClickFilterDrinkCategory(category.strCategory) }
               >
                 { category.strCategory }
               </button>
@@ -49,5 +66,4 @@ function Drinks() {
     </>
   );
 }
-
 export default Drinks;

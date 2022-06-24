@@ -19,17 +19,20 @@ function Foods() {
     setFoods(true);
   }, []);
 
-  const { foodCategoryData } = useContext(RecipesContext);
+  const { foodCategoryData, setArrayCardsFoods } = useContext(RecipesContext);
 
-  async function onClickFilterFoodCategory(category) {
+  async function onClickFilterFoodCategory(categoryName) {
     const finalData = await fetchAPI(
-      `www.themealdb.com/api/json/v1/1/filter.php?c=${category}`,
+      `https://www.themealdb.com/api/json/v1/1/filter.php?c=${categoryName}`,
     );
-    console.log(finalData);
+    setArrayCardsFoods(finalData.meals);
   }
 
-  function onClickAll() {
-
+  async function onClickAll() {
+    const finalData = await fetchAPI(
+      'https://www.themealdb.com/api/json/v1/1/search.php?s=',
+    );
+    setArrayCardsFoods(finalData.meals);
   }
 
   return (

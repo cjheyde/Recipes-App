@@ -42,7 +42,6 @@ function RecipesProvider({ children }) {
     setExplDrinkIngred(finalData.drinks);
   }
 
-  // req.75 a 77
   async function fetchFoods() {
     const finalData = await fetchAPI('https://www.themealdb.com/api/json/v1/1/search.php?s=');
     setArrayFoods(finalData.meals);
