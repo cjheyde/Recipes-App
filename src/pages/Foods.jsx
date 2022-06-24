@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Header from '../components/Header';
 import CardsMeals from '../components/CardsMeals';
 import headerContext from '../MyContext/headerContext';
@@ -21,18 +21,26 @@ function Foods() {
 
   const { foodCategoryData, setArrayCardsFoods } = useContext(RecipesContext);
 
-  async function onClickFilterFoodCategory(categoryName) {
-    const finalData = await fetchAPI(
-      `https://www.themealdb.com/api/json/v1/1/filter.php?c=${categoryName}`,
-    );
-    setArrayCardsFoods(finalData.meals);
-  }
+  const [toogleYes, setToogleYes] = useState(false);
 
   async function onClickAll() {
     const finalData = await fetchAPI(
       'https://www.themealdb.com/api/json/v1/1/search.php?s=',
     );
     setArrayCardsFoods(finalData.meals);
+  }
+
+  async function onClickFilterFoodCategory(categoryName) {
+    const finalData = await fetchAPI(
+      `https://www.themealdb.com/api/json/v1/1/filter.php?c=${categoryName}`,
+    );
+    if (toogleYes === false) {
+      setArrayCardsFoods(finalData.meals);
+      setToogleYes(true);
+    } else {
+      onClickAll();
+      setToogleYes(false);
+    }
   }
 
   return (

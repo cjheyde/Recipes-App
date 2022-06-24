@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Header from '../components/Header';
 import CardsDrink from '../components/CardsDrink';
 import SearchBarHeader from '../components/SearchBarHeader';
@@ -22,18 +22,26 @@ function Drinks() {
     drinkCategoryData, setArrayCardsDrinks,
   } = useContext(RecipesContext);
 
-  async function onClickFilterDrinkCategory(categoryName) {
-    const finalData = await fetchAPI(
-      `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${categoryName}`,
-    );
-    setArrayCardsDrinks(finalData.drinks);
-  }
+  const [toogleYes, setToogleYes] = useState(false);
 
   async function onClickAll() {
     const finalData = await fetchAPI(
       'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=',
     );
     setArrayCardsDrinks(finalData.drinks);
+  }
+
+  async function onClickFilterDrinkCategory(categoryName) {
+    const finalData = await fetchAPI(
+      `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${categoryName}`,
+    );
+    if (toogleYes === false) {
+      setArrayCardsDrinks(finalData.drinks);
+      setToogleYes(true);
+    } else {
+      onClickAll();
+      setToogleYes(false);
+    }
   }
 
   return (
