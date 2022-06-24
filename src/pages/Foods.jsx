@@ -6,7 +6,7 @@ import SearchBarHeader from '../components/SearchBarHeader';
 import Footer from '../components/Footer';
 import RecipesContext from '../MyContext/RecipesContext';
 import '../CSS/Foods.css';
-import fetchAPI from '../services/api';
+// import fetchAPI from '../services/api';
 
 const cinco = 5;
 
@@ -70,6 +70,7 @@ function Foods() {
       </div>
       <CardsMeals />
       <Footer />
+
     </>
   );
 }
