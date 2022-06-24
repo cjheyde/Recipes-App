@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Header from '../components/Header';
 import CardsMeals from '../components/CardsMeals';
 import headerContext from '../MyContext/headerContext';
@@ -13,31 +13,34 @@ const cinco = 5;
 function Foods() {
   const { setHeaderState, setSearchBar, setFoods } = useContext(headerContext);
 
-  const {
-    foodCategoryData, setFoodCategoryData,
-  } = useContext(RecipesContext);
-
   useEffect(() => {
     setHeaderState('Foods');
     setSearchBar(false);
     setFoods(true);
   }, []);
 
-  if (foodCategoryData !== null && foodCategoryData !== undefined
-    && foodCategoryData.length > cinco) {
-    const newFoodCategoryData = foodCategoryData.slice(0, cinco);
-    setFoodCategoryData(newFoodCategoryData);
-  }
+  const { foodCategoryData, setArrayCardsFoods } = useContext(RecipesContext);
 
-  async function onClickFilterFoodCategory(category) {
+  const [toogleYes, setToogleYes] = useState(false);
+
+  async function onClickAll() {
     const finalData = await fetchAPI(
-      `www.themealdb.com/api/json/v1/1/filter.php?c=${category}`,
+      'https://www.themealdb.com/api/json/v1/1/search.php?s=',
     );
-    console.log(finalData);
+    setArrayCardsFoods(finalData.meals);
   }
 
-  function onClickAll() {
-
+  async function onClickFilterFoodCategory(categoryName) {
+    const finalData = await fetchAPI(
+      `https://www.themealdb.com/api/json/v1/1/filter.php?c=${categoryName}`,
+    );
+    if (toogleYes === false) {
+      setArrayCardsFoods(finalData.meals);
+      setToogleYes(true);
+    } else {
+      onClickAll();
+      setToogleYes(false);
+    }
   }
 
   return (
@@ -45,8 +48,8 @@ function Foods() {
       <Header />
       <SearchBarHeader />
       <div className="Filters">
-        { foodCategoryData !== undefined
-          && foodCategoryData.map((category, index) => (
+        { foodCategoryData !== null && foodCategoryData !== undefined
+          && foodCategoryData.slice(0, cinco).map((category, index) => (
             <div key={ index }>
               <button
                 type="button"
