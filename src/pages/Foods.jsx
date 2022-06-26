@@ -5,8 +5,8 @@ import headerContext from '../MyContext/headerContext';
 import SearchBarHeader from '../components/SearchBarHeader';
 import Footer from '../components/Footer';
 import RecipesContext from '../MyContext/RecipesContext';
-import '../CSS/Foods.css';
-// import fetchAPI from '../services/api';
+import '../CSS/FoodsDrinks.css';
+import fetchAPI from '../services/api';
 
 const cinco = 5;
 

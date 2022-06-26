@@ -219,7 +219,6 @@ function RecipesProvider({ children }) {
     drinkCategoryData,
     setDrinkCategoryData,
     explFoodIngred,
-    setExplFoodIngred,
     explDrinkIngred,
     setExplDrinkIngred,
     arrayCardsFoods,
