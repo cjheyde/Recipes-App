@@ -30,6 +30,12 @@ function RecipesProvider({ children }) {
   const [arrayCardsDrinks, setArrayCardsDrinks] = useState([]);
   const [explFoodIngred, setExplFoodIngred] = useState([]);
   const [explDrinkIngred, setExplDrinkIngred] = useState([]);
+  const [arrayNationsList, setArrayNationsList] = useState([]);
+
+  async function fetchNationsList() {
+    const finalData = await fetchAPI('https://www.themealdb.com/api/json/v1/1/list.php?a=list');
+    setArrayNationsList(finalData.meals);
+  }
 
   async function fetchExplFoodIngred() {
     const finalData = await fetchAPI('https://www.themealdb.com/api/json/v1/1/list.php?i=list');
@@ -69,6 +75,7 @@ function RecipesProvider({ children }) {
     fetchDrinkCategories();
     fetchExplFoodIngred();
     fetchExplDrinkIngred();
+    fetchNationsList();
   }, []);
 
   useEffect(() => {
@@ -225,6 +232,8 @@ function RecipesProvider({ children }) {
     setArrayCardsFoods,
     arrayCardsDrinks,
     setArrayCardsDrinks,
+    arrayNationsList,
+    setArrayNationsList,
   };
 
   return (
