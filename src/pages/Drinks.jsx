@@ -1,10 +1,12 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Header from '../components/Header';
 import CardsDrink from '../components/CardsDrink';
 import SearchBarHeader from '../components/SearchBarHeader';
 import headerContext from '../MyContext/headerContext';
 import Footer from '../components/Footer';
 import RecipesContext from '../MyContext/RecipesContext';
+import fetchAPI from '../services/api';
+import '../CSS/FoodsDrinks.css';
 
 const cinco = 5;
 
@@ -18,14 +20,29 @@ function Drinks() {
   }, []);
 
   const {
-    drinkCategoryData,
+    drinkCategoryData, setArrayCardsDrinks,
   } = useContext(RecipesContext);
 
-  let { newDrinkCategoryData } = [];
-  if (drinkCategoryData.length > cinco) {
-    newDrinkCategoryData = drinkCategoryData.slice(0, cinco);
-  } else {
-    newDrinkCategoryData = drinkCategoryData;
+  const [toogleYes, setToogleYes] = useState(false);
+
+  async function onClickAll() {
+    const finalData = await fetchAPI(
+      'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=',
+    );
+    setArrayCardsDrinks(finalData.drinks);
+  }
+
+  async function onClickFilterDrinkCategory(categoryName) {
+    const finalData = await fetchAPI(
+      `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${categoryName}`,
+    );
+    if (toogleYes === false) {
+      setArrayCardsDrinks(finalData.drinks);
+      setToogleYes(true);
+    } else {
+      onClickAll();
+      setToogleYes(false);
+    }
   }
 
   return (
@@ -33,13 +50,13 @@ function Drinks() {
       <Header />
       <SearchBarHeader />
       <div className="Filters">
-        { newDrinkCategoryData !== undefined
-          && newDrinkCategoryData.map((category, index) => (
+        { drinkCategoryData !== null && drinkCategoryData !== undefined
+          && drinkCategoryData.slice(0, cinco).map((category, index) => (
             <div key={ index }>
               <button
                 type="button"
                 data-testid={ `${category.strCategory}-category-filter` }
-                // onClick={ onClickFilterDrinkCategory }
+                onClick={ () => onClickFilterDrinkCategory(category.strCategory) }
               >
                 { category.strCategory }
               </button>
@@ -58,5 +75,4 @@ function Drinks() {
     </>
   );
 }
-
 export default Drinks;

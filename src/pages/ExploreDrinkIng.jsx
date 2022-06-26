@@ -5,19 +5,20 @@ import Footer from '../components/Footer';
 import RecipesContext from '../MyContext/RecipesContext';
 import fetchAPI from '../services/api';
 import headerContext from '../MyContext/headerContext';
+import '../CSS/FoodsDrinks.css';
 
 const doze = 12;
 
 function ExploreDrinkIng() {
-  const { explDrinkIngred, setArrayCards } = useContext(RecipesContext);
+  const { explDrinkIngred, setArrayCardsDrinks } = useContext(RecipesContext);
   const {
-  //  setHeaderState,
+    setHeaderState,
     setSearchBar,
     setFoods,
   } = useContext(headerContext);
 
   useEffect(() => {
-  //  setHeaderState('Explore Ingredients');
+    setHeaderState('Explore Ingredients');
     setSearchBar(false);
     setFoods(false);
   }, []);
@@ -26,7 +27,7 @@ function ExploreDrinkIng() {
 
   async function ingredientClick(ingredientName) {
     const newData = await fetchAPI(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${ingredientName}`);
-    setArrayCards(newData.drinks);
+    setArrayCardsDrinks(newData.drinks);
     history.push('/drinks');
   }
 
@@ -37,6 +38,7 @@ function ExploreDrinkIng() {
         { explDrinkIngred !== null && explDrinkIngred !== undefined
           && explDrinkIngred.slice(0, doze).map((ingredient, index) => (
             <div
+              className="ingredients"
               data-testid={ `${index}-ingredient-card` }
               key={ index }
             >

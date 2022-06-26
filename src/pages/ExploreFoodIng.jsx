@@ -5,19 +5,20 @@ import Footer from '../components/Footer';
 import headerContext from '../MyContext/headerContext';
 import RecipesContext from '../MyContext/RecipesContext';
 import fetchAPI from '../services/api';
+import '../CSS/FoodsDrinks.css';
 
 const doze = 12;
 
 function ExploreFoodIng() {
-  const { explFoodIngred, setArrayCards } = useContext(RecipesContext);
+  const { explFoodIngred, setArrayCardsFoods } = useContext(RecipesContext);
   const {
-  //  setHeaderState,
+    setHeaderState,
     setSearchBar,
     setFoods,
   } = useContext(headerContext);
 
   useEffect(() => {
-  //  setHeaderState('Explore Ingredients');
+    setHeaderState('Explore Ingredients');
     setSearchBar(false);
     setFoods(false);
   }, []);
@@ -26,8 +27,8 @@ function ExploreFoodIng() {
 
   async function ingredientClick(ingredientName) {
     const newData = await fetchAPI(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${ingredientName}`);
-    console.log(ingredientName);
-    setArrayCards(newData.meals);
+    // console.log(ingredientName);
+    setArrayCardsFoods(newData.meals);
     history.push('/foods');
   }
 
@@ -38,6 +39,7 @@ function ExploreFoodIng() {
         { explFoodIngred !== null && explFoodIngred !== undefined
           && explFoodIngred.slice(0, doze).map((ingredient, index) => (
             <div
+              className="ingredients"
               data-testid={ `${index}-ingredient-card` }
               key={ index }
             >
