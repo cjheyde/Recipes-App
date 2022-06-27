@@ -1,13 +1,21 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import headerContext from '../MyContext/headerContext';
 import RecipesContext from '../MyContext/RecipesContext';
 
 const doze = 12;
 
 function ExploreFoodIng() {
   const { explFoodIngred, setExplFoodIngred } = useContext(RecipesContext);
+  const { setHeaderState, setSearchBar, setFoods } = useContext(headerContext);
+
+  useEffect(() => {
+    setHeaderState('Explore Ingredients');
+    setSearchBar(false);
+    setFoods(false);
+  }, []);
 
   if (explFoodIngred !== null && explFoodIngred !== undefined
     && explFoodIngred.length > doze) {

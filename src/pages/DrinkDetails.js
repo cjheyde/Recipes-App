@@ -10,7 +10,6 @@ function FoodDetails() {
   const location = useLocation();
   const pathname = location.pathname.split('/')[2];
   const [food, setFood] = useState([]);
-  const [food1, setFood1] = useState([]);
 
   useEffect(() => {
     const apiDrink = async () => {
@@ -24,14 +23,11 @@ function FoodDetails() {
 
   const randomApi = async () => {
     try {
-      const urlRandomDirnks = 'https://www.themealdb.com/api/json/v1/1/random.php';
+      const urlRandomDirnks = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
       const responseRandomDirnks = await fetch(urlRandomDirnks);
-      const { foods } = await responseRandomDirnks.json();
-      setFood(foods);
-      const urlRandomDirnks1 = 'https://www.themealdb.com/api/json/v1/1/random.php';
-      const responseRandomDirnks1 = await fetch(urlRandomDirnks1);
-      const { foods1 } = await responseRandomDirnks1.json();
-      setFood1(foods1);
+      const { meals } = await responseRandomDirnks.json();
+      setFood(meals);
+      console.log(meals);
     } catch (error) {
       return console.log(error);
     }
@@ -55,6 +51,7 @@ function FoodDetails() {
     setMeasure(measu);
   }, [drink]);
 
+  const n6 = 6;
   return (
     <section>
       <div>
@@ -102,16 +99,22 @@ function FoodDetails() {
         <p data-testid="instructions">{ drink.strInstructions }</p>
       </div>
       <div>
-        <h1>Recommended</h1>
-        <div data-testid="0-recomendation-card">
-          <img src={ food?.strDrinkThumb } alt="bebida recomendada" />
-          <p>{ food?.strAlcoholic }</p>
-          <h3 data-testid="0-recomendation-title">{ food?.strDrink }</h3>
+        <div>
+          <h1>Recommended</h1>
         </div>
-        <div data-testid="1-recomendation-card">
-          <img src={ food1?.strDrinkThumb } alt="bebida recomendada" />
-          <p>{ food1?.strAlcoholic }</p>
-          <h3 data-testid="1-recomendation-title">{ food1?.strDrink }</h3>
+        <div>
+          { food.slice(0, n6).map((element, index) => (
+            <div
+              data-testid={ `${index}-recomendation-card` }
+              key={ index }
+            >
+              <img src={ element?.strMealThumb } alt="bebida recomendada" />
+              <p>{ element?.strCategory }</p>
+              <h3 data-testid={ `${index}-recomendation-title` }>
+                { element?.strMeal }
+              </h3>
+            </div>
+          )) }
         </div>
       </div>
       <button
