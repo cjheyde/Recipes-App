@@ -16,6 +16,10 @@ function CardsMeals() {
         <div
           data-testid={ `${index}-recipe-card` }
           key={ index }
+          onClick={ () => history.push(`/foods/${card.idMeal}`) }
+          onKeyPress={ () => history.push(`/foods/${card.idMeal}`) }
+          role="button"
+          tabIndex={ 0 }
         >
           <button
             data-testid={ `${index}-card-img` }
