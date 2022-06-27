@@ -1,24 +1,34 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
 import favoriteIcon from '../images/whiteHeartIcon.svg';
+// import blackHeartIcon from '../images/blackHeartIcon.svg';
+
+const copy = require('clipboard-copy');
+
+const criateStorage = () => {
+  const cocktails = {};
+  const meals = {};
+  localStorage.setItem('InProgressRecipes', JSON.stringify({ cocktails, meals }));
+};
 
 function FoodProgress() {
   const [mealApi, setMealApi] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [measure, setMeasure] = useState([]);
-  const location = useLocation();
-  const pathname = location.pathname.split('/')[2];
+  const { id } = useParams();
+  const [check, setCheck] = useState([]);
+  // const [favorite, setFavorite] = useState(false);
 
   useEffect(() => {
     const apiMeal = async () => {
-      const url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${pathname}`;
+      const url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
       const response = await fetch(url);
-      const { meals } = await response.json();
-      setMealApi(meals[0]);
+      const { meals: mealAPI } = await response.json();
+      setMealApi(mealAPI[0]);
     };
     apiMeal();
-  }, [pathname]);
+  }, [id]);
 
   useEffect(() => {
     const ingred = [];
@@ -38,6 +48,62 @@ function FoodProgress() {
     });
   }, [mealApi]);
 
+  useEffect(() => {
+    if (!JSON.parse(localStorage.getItem('InProgressRecipes'))) {
+      criateStorage();
+    }
+    const { meals: testeLocal } = JSON.parse(localStorage.getItem('InProgressRecipes'));
+    const haveRecipe = Object.keys(testeLocal).some((recipeId) => recipeId === id);
+    if (!haveRecipe) {
+      const getLocal = JSON.parse(localStorage.getItem('InProgressRecipes'));
+      const newLocal = {
+        ...getLocal,
+        meals: {
+          ...getLocal?.meals,
+          [id]: [],
+        },
+      };
+      localStorage.setItem('InProgressRecipes', JSON.stringify(newLocal));
+    } else {
+      const { meals: { [id]: recipe } } = JSON
+        .parse(localStorage.getItem('InProgressRecipes'));
+      setCheck(recipe);
+    }
+  }, [id]);
+
+  const recoverRecipe = (ingredient) => {
+    const getLocal = JSON.parse(localStorage.getItem('InProgressRecipes'));
+    const { meals: { [id]: testeLocal } } = getLocal;
+    const haveIngredient = testeLocal.some((recipeId) => recipeId === ingredient);
+    if (!haveIngredient) {
+      const { meals: teste } = JSON.parse(localStorage.getItem('InProgressRecipes'));
+      const arrayIngredients = [...teste[id], ingredient];
+      const newLocal = {
+        ...getLocal,
+        meals: {
+          ...getLocal?.meals,
+          [id]: [...teste[id], ingredient],
+        },
+      };
+      setCheck(arrayIngredients);
+      localStorage.setItem('InProgressRecipes', JSON.stringify({ ...newLocal }));
+    } else {
+      const { meals: { [id]: recipeIdmeals } } = JSON
+        .parse(localStorage.getItem('InProgressRecipes'));
+      const arrayWithoutIngedients = recipeIdmeals
+        .filter((index) => index !== ingredient);
+      setCheck(arrayWithoutIngedients);
+      const newLocal = {
+        ...getLocal,
+        meals: {
+          ...getLocal?.meals,
+          [id]: [...arrayWithoutIngedients],
+        },
+      };
+      localStorage.setItem('InProgressRecipes', JSON.stringify({ ...newLocal }));
+    }
+  };
+
   return (
     <section>
       <img
@@ -50,6 +116,7 @@ function FoodProgress() {
         type="button"
         data-testid="share-btn"
         src={ shareIcon }
+        onClick={ () => global.alert('Link copied!') && copy('Link copied!') }
       >
         <img src={ shareIcon } alt={ shareIcon } />
       </button>
@@ -57,6 +124,7 @@ function FoodProgress() {
         type="button"
         data-testid="favorite-btn"
         src={ favoriteIcon }
+        // onClick={ favorite ? setFavorite(false) : setFavorite(true) }
       >
         <img src={ favoriteIcon } alt={ favoriteIcon } />
       </button>
@@ -65,8 +133,16 @@ function FoodProgress() {
       <div>
         {ingredients.map((value, index) => (
           <h3 key={ index } data-testid={ `${index}-ingredient-step` }>
-            <input type="checkbox" />
-            {`${value} - ${measure[index]}`}
+            <label htmlFor={ index }>
+              <input
+                id={ index }
+                key={ index }
+                type="checkbox"
+                onClick={ () => recoverRecipe(index) }
+                checked={ check.some((che) => che === index) }
+              />
+              {`${value} - ${measure[index]}`}
+            </label>
           </h3>
         ))}
       </div>
