@@ -4,12 +4,14 @@ import userEvent from '@testing-library/user-event';
 import renderWithRouter from './helper/renderWithRouter';
 import App from '../App';
 
+const headerTitleId = 'page-title';
+
 describe('Testa o componente <Profile/>', () => {
   it('Verifica o Header e o Footer da pagina Profile', () => {
     const { history } = renderWithRouter(<App />);
     history.push('/profile');
 
-    const headerTitle = screen.getByTestId('page-title');
+    const headerTitle = screen.getByTestId(headerTitleId);
     const profileIcon = screen.getByRole('button', {
       name: /profile icon/i,
     });
@@ -66,7 +68,7 @@ describe('Testa o componente <Profile/>', () => {
 
     userEvent.click(doneRecepiesBtn);
     const { pathname } = history.location;
-    const headerTitle = screen.getByTestId('page-title');
+    const headerTitle = screen.getByTestId(headerTitleId);
     const profileIcon = screen.getByRole('button', {
       name: /profile icon/i,
     });
@@ -88,7 +90,7 @@ describe('Testa o componente <Profile/>', () => {
 
     userEvent.click(favoriteRecipesBtn);
     const { pathname } = history.location;
-    const headerTitle = screen.getByTestId('page-title');
+    const headerTitle = screen.getByTestId(headerTitleId);
     const profileIcon = screen.getByRole('button', {
       name: /profile icon/i,
     });
