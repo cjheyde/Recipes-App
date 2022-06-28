@@ -1,24 +1,32 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
 import favoriteIcon from '../images/whiteHeartIcon.svg';
+
+const copy = require('clipboard-copy');
+
+const criateStorage = () => {
+  const cocktails = {};
+  const meals = {};
+  localStorage.setItem('InProgressRecipes', JSON.stringify({ cocktails, meals }));
+};
 
 function DrinkProgress() {
   const [drinkApi, setDrinkApi] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [measure, setMeasure] = useState([]);
-  const location = useLocation();
-  const pathname = location.pathname.split('/')[2];
+  const { id } = useParams();
+  const [check, setCheck] = useState([]);
 
   useEffect(() => {
     const apiDrink = async () => {
-      const url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${pathname}`;
+      const url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
       const response = await fetch(url);
       const { drinks } = await response.json();
       setDrinkApi(drinks[0]);
     };
     apiDrink();
-  }, [pathname]);
+  }, [id]);
 
   useEffect(() => {
     const ingred = [];
@@ -38,6 +46,63 @@ function DrinkProgress() {
     });
   }, [drinkApi]);
 
+  useEffect(() => {
+    if (!JSON.parse(localStorage.getItem('InProgressRecipes'))) {
+      criateStorage();
+    }
+    const { cocktails: testeLocal } = JSON.parse(localStorage
+      .getItem('InProgressRecipes'));
+    const haveRecipe = Object.keys(testeLocal).some((recipeId) => recipeId === id);
+    if (!haveRecipe) {
+      const getLocal = JSON.parse(localStorage.getItem('InProgressRecipes'));
+      const newLocal = {
+        ...getLocal,
+        cocktails: {
+          ...getLocal?.cocktails,
+          [id]: [],
+        },
+      };
+      localStorage.setItem('InProgressRecipes', JSON.stringify(newLocal));
+    } else {
+      const { cocktails: { [id]: recipe } } = JSON
+        .parse(localStorage.getItem('InProgressRecipes'));
+      setCheck(recipe);
+    }
+  }, [id]);
+
+  const recoverRecipe = (ingredient) => {
+    const getLocal = JSON.parse(localStorage.getItem('InProgressRecipes'));
+    const { cocktails: { [id]: testeLocal } } = getLocal;
+    const haveIngredient = testeLocal.some((recipeId) => recipeId === ingredient);
+    if (!haveIngredient) {
+      const { cocktails: teste } = JSON.parse(localStorage.getItem('InProgressRecipes'));
+      const arrayIngredients = [...teste[id], ingredient];
+      const newLocal = {
+        ...getLocal,
+        cocktails: {
+          ...getLocal?.cocktails,
+          [id]: [...teste[id], ingredient],
+        },
+      };
+      setCheck(arrayIngredients);
+      localStorage.setItem('InProgressRecipes', JSON.stringify({ ...newLocal }));
+    } else {
+      const { cocktails: { [id]: recipeIdmeals } } = JSON
+        .parse(localStorage.getItem('InProgressRecipes'));
+      const arrayWithoutIngedients = recipeIdmeals
+        .filter((index) => index !== ingredient);
+      setCheck(arrayWithoutIngedients);
+      const newLocal = {
+        ...getLocal,
+        cocktails: {
+          ...getLocal?.cocktails,
+          [id]: [...arrayWithoutIngedients],
+        },
+      };
+      localStorage.setItem('InProgressRecipes', JSON.stringify({ ...newLocal }));
+    }
+  };
+
   return (
     <section>
       <img
@@ -50,6 +115,7 @@ function DrinkProgress() {
         type="button"
         data-testid="share-btn"
         src={ shareIcon }
+        onClick={ () => global.alert('Link copied!') && copy('Link copied!') }
       >
         <img src={ shareIcon } alt={ shareIcon } />
       </button>
@@ -65,8 +131,16 @@ function DrinkProgress() {
       <div>
         {ingredients.map((value, index) => (
           <h3 key={ index } data-testid={ `${index}-ingredient-step` }>
-            <input type="checkbox" />
-            {`${value} - ${measure[index]}`}
+            <label htmlFor={ index }>
+              <input
+                id={ index }
+                key={ index }
+                type="checkbox"
+                onClick={ () => recoverRecipe(index) }
+                checked={ check.some((che) => che === index) }
+              />
+              {`${value} - ${measure[index]}`}
+            </label>
           </h3>
         ))}
       </div>

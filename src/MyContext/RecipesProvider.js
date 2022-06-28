@@ -14,14 +14,9 @@ function RecipesProvider({ children }) {
   const [cocktailsIngredientApi, setCocktailsIngredientApi] = useState([]);
   const [cocktailsNameApi, setCocktailsNameApi] = useState([]);
   const [cocktailsFirstLetterApi, setCocktailsFirstLetterApi] = useState([]);
-  const [radioSelected, setRadioSelected] = useState({
-    radio: '',
-  });
+  const [radioSelected, setRadioSelected] = useState({ radio: '' });
   const [arrayCards, setArrayCards] = useState([]);
-  const [randomFoodAndDrinks, setRandomFoodAndDrinks] = useState({
-    food: {},
-    drink: {},
-  });
+  const [randomFoodAndDrinks, setRandomFoodAndDrinks] = useState({ food: {}, drink: {} });
   const [foodCategoryData, setFoodCategoryData] = useState([]);
   const [arrayFoods, setArrayFoods] = useState([]);
   const [drinkCategoryData, setDrinkCategoryData] = useState([]);
@@ -164,7 +159,7 @@ function RecipesProvider({ children }) {
           drink: drinks,
         });
       } catch (error) {
-        return console.log(error);
+        return error;
       }
     };
     randomApi();
