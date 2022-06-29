@@ -17,7 +17,7 @@ function Foods() {
     setHeaderState('Foods');
     setSearchBar(false);
     setFoods(true);
-  }, []);
+  }, [setFoods, setHeaderState, setSearchBar]);
 
   const { foodCategoryData, setArrayCardsFoods } = useContext(RecipesContext);
 
