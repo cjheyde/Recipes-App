@@ -5,6 +5,9 @@ import blackHeartIcon from '../images/blackHeartIcon.svg';
 import ComponentDrink from '../components/ComponentDrink';
 import '../CSS/FoodDetails.css';
 
+// req.43
+const copy = require('clipboard-copy');
+
 function FoodDetails() {
   const [ingredients, setIngredients] = useState([]);
   const [measure, setMeasure] = useState([]);
@@ -14,6 +17,8 @@ function FoodDetails() {
   const [url1, setUrl] = useState([]);
   // const [done, setDone] = useState([]);
   const id = location.pathname.split('/')[2];
+  // req.43
+  const [showClipboardsMessage, setShowClipboardMessage] = useState(false);
 
   useEffect(() => {
     const apiMeal = async () => {
@@ -59,18 +64,27 @@ function FoodDetails() {
       </div>
       <div>
         <h1 data-testid="recipe-title">{meal.strMeal}</h1>
-        <a
+        {/* req.43 */}
+        <button
           data-testid="share-btn"
           href={ `https://www.facebook.com/sharer/sharer.php?u=${useHistory.location}` }
+          type="button"
+          src={ shareIcon }
+          onClick={ () => {
+            setShowClipboardMessage(true);
+            copy(`http://localhost:3000${location.pathname}`);
+          } }
         >
           <img width="25" height="25" src={ shareIcon } alt="share" />
-        </a>
+        </button>
         <button
           type="button"
           data-testid="favorite-btn"
         >
           <img src={ blackHeartIcon } alt="favorite" width="25" height="25" />
         </button>
+        {/* req.43 */}
+        { showClipboardsMessage && <p>Link copied!</p> }
       </div>
       <div>
         <p data-testid="recipe-category">{meal.strCategory}</p>
