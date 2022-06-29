@@ -1,5 +1,5 @@
 .buttonStartRecipe {
+  bottom: 0;
   position: fixed;
   z-index: 5;
-  bottom: 0px;
-};
+}
