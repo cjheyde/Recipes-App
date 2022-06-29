@@ -2,14 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
+import ComponentFood from '../components/ComponentFood';
+import '../CSS/DrinkDetails.css';
 
-function FoodDetails() {
+function DrinkDetails() {
   const [ingredients, setIngredients] = useState([]);
   const [measure, setMeasure] = useState([]);
   const [drink, setDrink] = useState([]);
   const location = useLocation();
   const pathname = location.pathname.split('/')[2];
-  const [food, setFood] = useState([]);
+  const [done, setDone] = useState([]);
+  const id = location.pathname.split('/')[2];
 
   useEffect(() => {
     const apiDrink = async () => {
@@ -21,20 +24,9 @@ function FoodDetails() {
     apiDrink();
   }, [pathname]);
 
-  const randomApi = async () => {
-    try {
-      const urlRandomDirnks = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
-      const responseRandomDirnks = await fetch(urlRandomDirnks);
-      const { meals } = await responseRandomDirnks.json();
-      setFood(meals);
-      console.log(meals);
-    } catch (error) {
-      return console.log(error);
-    }
-  };
-
   useEffect(() => {
-    randomApi();
+    const doneRecipes = localStorage.getItem('doneRecipes') || [];
+    setDone(doneRecipes);
     const ingred = [];
     const measu = [];
     Object.entries(drink).forEach(([key, value]) => {
@@ -50,14 +42,15 @@ function FoodDetails() {
     setIngredients(ingred);
     setMeasure(measu);
   }, [drink]);
-
-  const n6 = 6;
+  const history = useHistory();
+  const disable = done.length === 0 ? false : done.find((el) => el.id === id);
+  console.log(disable);
   return (
     <section>
       <div>
         <img
           data-testid="recipe-photo"
-          src={ drink.strMealThumb }
+          src={ drink.strDrinkThumb }
           alt={ drink.strDrink }
         />
       </div>
@@ -71,7 +64,6 @@ function FoodDetails() {
         </a>
         <button
           type="button"
-          // onClick={ favoriteDrinkClick }
           data-testid="favorite-btn"
         >
           <img src={ blackHeartIcon } alt="favorite" width="25" height="25" />
@@ -99,28 +91,15 @@ function FoodDetails() {
         <p data-testid="instructions">{ drink.strInstructions }</p>
       </div>
       <div>
-        <div>
-          <h1>Recommended</h1>
-        </div>
-        <div>
-          { food.slice(0, n6).map((element, index) => (
-            <div
-              data-testid={ `${index}-recomendation-card` }
-              key={ index }
-            >
-              <img src={ element?.strMealThumb } alt="bebida recomendada" />
-              <p>{ element?.strCategory }</p>
-              <h3 data-testid={ `${index}-recomendation-title` }>
-                { element?.strMeal }
-              </h3>
-            </div>
-          )) }
-        </div>
+        <h1>Recommended</h1>
+        <ComponentFood />
       </div>
+
       <button
+        className="buttonStartRecipe"
         data-testid="start-recipe-btn"
         type="button"
-        // onClick={ onClickButton }
+        onClick={ () => history.push(`/foods/${id}/in-progress`) }
       >
         Start Recipe
       </button>
@@ -128,4 +107,4 @@ function FoodDetails() {
   );
 }
 
-export default FoodDetails;
+export default DrinkDetails;

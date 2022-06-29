@@ -13,33 +13,18 @@ function FoodDetails() {
   const pathname = location.pathname.split('/')[2];
   const [url1, setUrl] = useState([]);
   const [done, setDone] = useState([]);
-  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-  const [id, setId] = useState();
-  // const [drink, setDrink] = useState([]);
+  const id = location.pathname.split('/')[2];
 
   useEffect(() => {
     const apiMeal = async () => {
       const url2 = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${pathname}`;
       const response = await fetch(url2);
       const { meals } = await response.json();
-      setId(pathname);
       setMeal(meals[0]);
       setUrl(meals[0].strYoutube.split('='));
     };
     apiMeal();
   }, [pathname]);
-
-  // const randomApi = async () => {
-  //   try {
-  //     const url = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
-  //     const urlRandomDirnks = url;
-  //     const responseRandomDirnks = await fetch(urlRandomDirnks);
-  //     const { drinks } = await responseRandomDirnks.json();
-  //     setDrink(drinks);
-  //   } catch (error) {
-  //     return console.log(error);
-  //   }
-  // };
 
   useEffect(() => {
     const doneRecipes = localStorage.getItem('doneRecipes') || [];
@@ -59,18 +44,10 @@ function FoodDetails() {
     });
     setIngredients(ingred);
     setMeasure(measu);
-    const verify = () => {
-      if (done) {
-        const array = done.find((el) => el.id === id);
-        setIsButtonDisabled(array);
-      } else {
-        setIsButtonDisabled(false);
-      }
-    };
-    verify();
   }, [meal, id]);
-
-  // const n6 = 6;
+  const history = useHistory();
+  const disable = done.find((el) => el.id === id).toString();
+  console.log(disable);
   return (
     <section>
       <div>
@@ -90,7 +67,6 @@ function FoodDetails() {
         </a>
         <button
           type="button"
-          // onClick={ favoriteMealClick }
           data-testid="favorite-btn"
         >
           <img src={ blackHeartIcon } alt="favorite" width="25" height="25" />
@@ -131,33 +107,13 @@ function FoodDetails() {
           allowFullScreen
         />
       </div>
-      {/* <div>
-        <div>
-          <h1>Recommended</h1>
-        </div>
-        <div>
-          { drink.slice(0, n6).map((element, index) => (
-            <div
-              data-testid={ `${index}-recomendation-card` }
-              key={ index }
-            >
-              <img src={ element?.strDrinkThumb } alt="bebida recomendada" />
-              <p>{ element?.strAlcoholic }</p>
-              <h3 data-testid={ `${index}-recomendation-title` }>
-                { element?.strDrink }
-              </h3>
-            </div>
-          )) }
-        </div>
-      </div> */}
       <h1>Recommended</h1>
       <ComponentDrink />
       <button
         className="buttonStartRecipe"
         data-testid="start-recipe-btn"
         type="button"
-        disabled={ isButtonDisabled }
-        // onClick={ onClickButton }
+        onClick={ () => history.push(`/foods/${id}/in-progress`) }
       >
         Start Recipe
       </button>
