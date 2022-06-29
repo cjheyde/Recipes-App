@@ -12,7 +12,7 @@ function FoodDetails() {
   const location = useLocation();
   const pathname = location.pathname.split('/')[2];
   const [url1, setUrl] = useState([]);
-  const [done, setDone] = useState([]);
+  // const [done, setDone] = useState([]);
   const id = location.pathname.split('/')[2];
 
   useEffect(() => {
@@ -27,8 +27,8 @@ function FoodDetails() {
   }, [pathname]);
 
   useEffect(() => {
-    const doneRecipes = localStorage.getItem('doneRecipes') || [];
-    setDone(doneRecipes);
+    // const doneRecipes = localStorage.getItem('doneRecipes') || [];
+    // setDone(doneRecipes);
     // randomApi();
     const ingred = [];
     const measu = [];
@@ -46,8 +46,8 @@ function FoodDetails() {
     setMeasure(measu);
   }, [meal, id]);
   const history = useHistory();
-  const disable = done.find((el) => el.id === id).toString();
-  console.log(disable);
+  // const disable = done.find((el) => el.id === id).toString();
+  // console.log(disable);
   return (
     <section>
       <div>

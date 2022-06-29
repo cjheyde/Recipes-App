@@ -3,16 +3,16 @@
   flex-direction: row;
   justify-content: start;
   /* align-items: center; */
-  width: 40%;
   height: 300px;
   overflow-x: auto;
+  width: 40%;
 }
 
 .card {
-  justify-content: start;
   background-color: #f1f1f1;
+  justify-content: start;
+  height: 80%;
   min-width: 50%;
   margin: 10px;
-  height: 80%;
   text-align: center;
 }
