@@ -21,49 +21,23 @@ function Foods() {
 
   const { foodCategoryData, setArrayCardsFoods } = useContext(RecipesContext);
 
-  const [toogleYes, setToogleYes] = useState(false);
-
-  async function onClickAll() {
-    const finalData = await fetchAPI(
-      'https://www.themealdb.com/api/json/v1/1/search.php?s=',
-    );
-    setArrayCardsFoods(finalData.meals);
-  }
+  const [catTarget, setCatTarget] = useState('');
 
   async function onClickFilterFoodCategory(categoryName) {
-    const finalData = await fetchAPI(
-      `https://www.themealdb.com/api/json/v1/1/filter.php?c=${categoryName}`,
-    );
-    if (toogleYes === false) {
+    if (categoryName !== 'All' && categoryName !== catTarget) {
+      const finalData = await fetchAPI(
+        `https://www.themealdb.com/api/json/v1/1/filter.php?c=${categoryName}`,
+      );
       setArrayCardsFoods(finalData.meals);
-      setToogleYes(true);
+      setCatTarget(categoryName);
     } else {
-      onClickAll();
-      setToogleYes(false);
+      const finalData = await fetchAPI(
+        'https://www.themealdb.com/api/json/v1/1/search.php?s=',
+      );
+      setArrayCardsFoods(finalData.meals);
+      setCatTarget('');
     }
   }
-
-  // req.30
-  // useEffect(() => {
-  //   const filteredByText = data.filter((planet) => planet.name.toLowerCase()
-  //     .includes(filteredPlanetsByText));
-
-  //   const allFilters = numericFilters.reduce((accumulator, filter) => accumulator
-  //     .filter((planet) => {
-  //       switch (filter.operador) {
-  //       case 'maior que':
-  //         return planet[filter.coluna] > Number(filter.value);
-  //       case 'menor que':
-  //         return planet[filter.coluna] < Number(filter.value);
-  //       case 'igual a':
-  //         return planet[filter.coluna] === (filter.value);
-  //       default:
-  //         return true;
-  //       }
-  //     }), filteredByText);
-
-  //   setFilteredPlanets(allFilters);
-  // }, [filteredPlanetsByText, numericFilters, data]);
 
   return (
     <>
@@ -85,7 +59,7 @@ function Foods() {
         <button
           type="button"
           data-testid="All-category-filter"
-          onClick={ () => onClickAll() }
+          onClick={ () => onClickFilterFoodCategory('All') }
         >
           All
         </button>

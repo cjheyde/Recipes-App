@@ -23,25 +23,21 @@ function Drinks() {
     drinkCategoryData, setArrayCardsDrinks,
   } = useContext(RecipesContext);
 
-  const [toogleYes, setToogleYes] = useState(false);
-
-  async function onClickAll() {
-    const finalData = await fetchAPI(
-      'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=',
-    );
-    setArrayCardsDrinks(finalData.drinks);
-  }
+  const [catTarget, setCatTarget] = useState('');
 
   async function onClickFilterDrinkCategory(categoryName) {
-    const finalData = await fetchAPI(
-      `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${categoryName}`,
-    );
-    if (toogleYes === false) {
+    if (categoryName !== 'All' && categoryName !== catTarget) {
+      const finalData = await fetchAPI(
+        `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${categoryName}`,
+      );
       setArrayCardsDrinks(finalData.drinks);
-      setToogleYes(true);
+      setCatTarget(categoryName);
     } else {
-      onClickAll();
-      setToogleYes(false);
+      const finalData = await fetchAPI(
+        'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=',
+      );
+      setArrayCardsDrinks(finalData.drinks);
+      setCatTarget('');
     }
   }
 
@@ -65,7 +61,7 @@ function Drinks() {
         <button
           type="button"
           data-testid="All-category-filter"
-          onClick={ () => onClickAll() }
+          onClick={ () => onClickFilterDrinkCategory('All') }
         >
           All
         </button>
