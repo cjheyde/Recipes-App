@@ -21,6 +21,7 @@ import FoodDetails from './pages/FoodDetails';
 import FoodProgress from './pages/FoodProgress';
 import DrinkProgress from './pages/DrinkProgress';
 import DrinkDetails from './pages/DrinkDetails';
+import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
   return (
@@ -51,6 +52,11 @@ function App() {
               exact
               path="/explore/foods/nationalities"
               component={ ExploreNationality }
+            />
+            <Route
+              exact
+              path="/explore/drinks/nationalities"
+              component={ NotFoundPage }
             />
             <Route exact path="/explore" component={ Explore } />
             <Route exact path="/profile" component={ Profile } />

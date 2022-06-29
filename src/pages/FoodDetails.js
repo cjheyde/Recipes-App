@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
+import ComponentDrink from '../components/ComponentDrink';
+import '../CSS/FoodDetails.css';
 
 function FoodDetails() {
   const [ingredients, setIngredients] = useState([]);
@@ -10,33 +12,39 @@ function FoodDetails() {
   const location = useLocation();
   const pathname = location.pathname.split('/')[2];
   const [url1, setUrl] = useState([]);
-  const [drink, setDrink] = useState([]);
+  const [done, setDone] = useState([]);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const [id, setId] = useState();
+  // const [drink, setDrink] = useState([]);
 
   useEffect(() => {
     const apiMeal = async () => {
       const url2 = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${pathname}`;
       const response = await fetch(url2);
       const { meals } = await response.json();
+      setId(pathname);
       setMeal(meals[0]);
       setUrl(meals[0].strYoutube.split('='));
     };
     apiMeal();
   }, [pathname]);
 
-  const randomApi = async () => {
-    try {
-      const url = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
-      const urlRandomDirnks = url;
-      const responseRandomDirnks = await fetch(urlRandomDirnks);
-      const { drinks } = await responseRandomDirnks.json();
-      setDrink(drinks);
-    } catch (error) {
-      return console.log(error);
-    }
-  };
+  // const randomApi = async () => {
+  //   try {
+  //     const url = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+  //     const urlRandomDirnks = url;
+  //     const responseRandomDirnks = await fetch(urlRandomDirnks);
+  //     const { drinks } = await responseRandomDirnks.json();
+  //     setDrink(drinks);
+  //   } catch (error) {
+  //     return console.log(error);
+  //   }
+  // };
 
   useEffect(() => {
-    randomApi();
+    const doneRecipes = localStorage.getItem('doneRecipes') || [];
+    setDone(doneRecipes);
+    // randomApi();
     const ingred = [];
     const measu = [];
     Object.entries(meal).forEach(([key, value]) => {
@@ -51,9 +59,18 @@ function FoodDetails() {
     });
     setIngredients(ingred);
     setMeasure(measu);
-  }, [meal]);
+    const verify = () => {
+      if (done) {
+        const array = done.find((el) => el.id === id);
+        setIsButtonDisabled(array);
+      } else {
+        setIsButtonDisabled(false);
+      }
+    };
+    verify();
+  }, [meal, id]);
 
-  const n6 = 6;
+  // const n6 = 6;
   return (
     <section>
       <div>
@@ -114,7 +131,7 @@ function FoodDetails() {
           allowFullScreen
         />
       </div>
-      <div>
+      {/* <div>
         <div>
           <h1>Recommended</h1>
         </div>
@@ -132,10 +149,14 @@ function FoodDetails() {
             </div>
           )) }
         </div>
-      </div>
+      </div> */}
+      <h1>Recommended</h1>
+      <ComponentDrink />
       <button
+        className="buttonStartRecipe"
         data-testid="start-recipe-btn"
         type="button"
+        disabled={ isButtonDisabled }
         // onClick={ onClickButton }
       >
         Start Recipe
