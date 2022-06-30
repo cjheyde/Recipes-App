@@ -10,14 +10,16 @@ function CardsDrink() {
 
   const history = useHistory();
   return (
-    <div>
+    <div className="main-card-container">
       { arrayCardsDrinks !== null && arrayCardsDrinks !== undefined
       && arrayCardsDrinks.slice(0, doze).map((card, index) => (
         <div
+          className="card-container"
           data-testid={ `${index}-recipe-card` }
           key={ index }
         >
           <button
+            className="card-btn"
             data-testid={ `${index}-card-img` }
             type="button"
             onClick={ () => history.push(`/drinks/${card.idDrink}`) }

@@ -2,15 +2,22 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
+import ComponentFood from '../components/ComponentFood';
+import '../CSS/DrinkDetails.css';
 
-function FoodDetails() {
+// req.43
+const copy = require('clipboard-copy');
+
+function DrinkDetails() {
   const [ingredients, setIngredients] = useState([]);
   const [measure, setMeasure] = useState([]);
   const [drink, setDrink] = useState([]);
   const location = useLocation();
   const pathname = location.pathname.split('/')[2];
-  const [food, setFood] = useState([]);
-  const [food1, setFood1] = useState([]);
+  const [done, setDone] = useState([]);
+  const id = location.pathname.split('/')[2];
+  // req.43
+  const [showClipboardsMessage, setShowClipboardMessage] = useState(false);
 
   useEffect(() => {
     const apiDrink = async () => {
@@ -22,23 +29,9 @@ function FoodDetails() {
     apiDrink();
   }, [pathname]);
 
-  const randomApi = async () => {
-    try {
-      const urlRandomDirnks = 'https://www.themealdb.com/api/json/v1/1/random.php';
-      const responseRandomDirnks = await fetch(urlRandomDirnks);
-      const { foods } = await responseRandomDirnks.json();
-      setFood(foods);
-      const urlRandomDirnks1 = 'https://www.themealdb.com/api/json/v1/1/random.php';
-      const responseRandomDirnks1 = await fetch(urlRandomDirnks1);
-      const { foods1 } = await responseRandomDirnks1.json();
-      setFood1(foods1);
-    } catch (error) {
-      return console.log(error);
-    }
-  };
-
   useEffect(() => {
-    randomApi();
+    const doneRecipes = localStorage.getItem('doneRecipes') || [];
+    setDone(doneRecipes);
     const ingred = [];
     const measu = [];
     Object.entries(drink).forEach(([key, value]) => {
@@ -54,31 +47,41 @@ function FoodDetails() {
     setIngredients(ingred);
     setMeasure(measu);
   }, [drink]);
-
+  const history = useHistory();
+  const disable = done.length === 0 ? false : done.find((el) => el.id === id);
+  console.log(disable);
   return (
     <section>
       <div>
         <img
           data-testid="recipe-photo"
-          src={ drink.strMealThumb }
+          src={ drink.strDrinkThumb }
           alt={ drink.strDrink }
         />
       </div>
       <div>
         <h1 data-testid="recipe-title">{drink.strDrink}</h1>
-        <a
+        {/* req.43 */}
+        <button
           data-testid="share-btn"
           href={ `https://www.facebook.com/sharer/sharer.php?u=${useHistory.location}` }
+          type="button"
+          src={ shareIcon }
+          onClick={ () => {
+            setShowClipboardMessage(true);
+            copy(`http://localhost:3000${location.pathname}`);
+          } }
         >
           <img width="25" height="25" src={ shareIcon } alt="share" />
-        </a>
+        </button>
         <button
           type="button"
-          // onClick={ favoriteDrinkClick }
           data-testid="favorite-btn"
         >
           <img src={ blackHeartIcon } alt="favorite" width="25" height="25" />
         </button>
+        {/* req.43 */}
+        { showClipboardsMessage && <p>Link copied!</p> }
       </div>
       <div>
         <p data-testid="recipe-category">{ drink.strAlcoholic }</p>
@@ -103,21 +106,14 @@ function FoodDetails() {
       </div>
       <div>
         <h1>Recommended</h1>
-        <div data-testid="0-recomendation-card">
-          <img src={ food?.strDrinkThumb } alt="bebida recomendada" />
-          <p>{ food?.strAlcoholic }</p>
-          <h3 data-testid="0-recomendation-title">{ food?.strDrink }</h3>
-        </div>
-        <div data-testid="1-recomendation-card">
-          <img src={ food1?.strDrinkThumb } alt="bebida recomendada" />
-          <p>{ food1?.strAlcoholic }</p>
-          <h3 data-testid="1-recomendation-title">{ food1?.strDrink }</h3>
-        </div>
+        <ComponentFood />
       </div>
+
       <button
+        className="buttonStartRecipe"
         data-testid="start-recipe-btn"
         type="button"
-        // onClick={ onClickButton }
+        onClick={ () => history.push(`/drinks/${id}/in-progress`) }
       >
         Start Recipe
       </button>
@@ -125,4 +121,4 @@ function FoodDetails() {
   );
 }
 
-export default FoodDetails;
+export default DrinkDetails;

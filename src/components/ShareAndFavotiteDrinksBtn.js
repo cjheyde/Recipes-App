@@ -1,5 +1,5 @@
-/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { useLocation, useParams } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
 import favoriteIcon from '../images/whiteHeartIcon.svg';
@@ -13,16 +13,16 @@ function ShareAndFavotiteDrinksBtn({ drinkApi }) {
   const { pathname } = useLocation();
   const newPath = pathname.split('/in-progress', (1 + 1 + 1));
   const idUrl = useParams();
-
   console.log(drinkApi);
 
   const obj = {
-    id: drinkApi.idMeal,
-    type: 'food',
-    nationality: drinkApi.strArea,
+    id: drinkApi.idDrink,
+    type: 'drink',
+    nationality: '',
     category: drinkApi.strCategory,
-    name: drinkApi.strMeal,
-    image: drinkApi.strMealThumb,
+    alcoholicOrNot: drinkApi.strAlcoholic,
+    name: drinkApi.strDrink,
+    image: drinkApi.strDrinkThumb,
   };
 
   useEffect(() => {
@@ -39,7 +39,6 @@ function ShareAndFavotiteDrinksBtn({ drinkApi }) {
     const recipeSaved = JSON.parse(localStorage.getItem('favoriteRecipes'));
     if (recipeSaved.some((item) => item.id === idUrl.id)) {
       const filterdLocal = recipeSaved.filter((el) => el.id !== idUrl.id);
-      console.log(filterdLocal);
       localStorage.setItem('favoriteRecipes', JSON
         .stringify(filterdLocal));
     } else {
@@ -74,5 +73,16 @@ function ShareAndFavotiteDrinksBtn({ drinkApi }) {
     </>
   );
 }
+
+ShareAndFavotiteDrinksBtn.propTypes = {
+  drinkApi: PropTypes.shape({
+    idDrink: PropTypes.number.isRequired,
+    strArea: PropTypes.string.isRequired,
+    strCategory: PropTypes.string.isRequired,
+    strDrink: PropTypes.string.isRequired,
+    strAlcoholic: PropTypes.string.isRequired,
+    strDrinkThumb: PropTypes.string.isRequired,
+  }).isRequired,
+};
 
 export default ShareAndFavotiteDrinksBtn;

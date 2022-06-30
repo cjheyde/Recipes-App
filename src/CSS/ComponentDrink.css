@@ -1,0 +1,19 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  height: 300px;
+  justify-content: start;
+
+  /* align-items: center; */
+  overflow-x: auto;
+  width: 40%;
+}
+
+.card {
+  background-color: #f1f1f1;
+  height: 80%;
+  justify-content: start;
+  margin: 10px;
+  min-width: 50%;
+  text-align: center;
+}

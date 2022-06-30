@@ -6,6 +6,7 @@ import SearchBarHeader from '../components/SearchBarHeader';
 import Footer from '../components/Footer';
 import RecipesContext from '../MyContext/RecipesContext';
 import '../CSS/FoodsDrinks.css';
+import '../CSS/FoodsPage.css';
 import fetchAPI from '../services/api';
 
 const cinco = 5;
@@ -17,29 +18,25 @@ function Foods() {
     setHeaderState('Foods');
     setSearchBar(false);
     setFoods(true);
-  }, []);
+  }, [setFoods, setHeaderState, setSearchBar]);
 
   const { foodCategoryData, setArrayCardsFoods } = useContext(RecipesContext);
 
-  const [toogleYes, setToogleYes] = useState(false);
-
-  async function onClickAll() {
-    const finalData = await fetchAPI(
-      'https://www.themealdb.com/api/json/v1/1/search.php?s=',
-    );
-    setArrayCardsFoods(finalData.meals);
-  }
+  const [catTarget, setCatTarget] = useState('');
 
   async function onClickFilterFoodCategory(categoryName) {
-    const finalData = await fetchAPI(
-      `https://www.themealdb.com/api/json/v1/1/filter.php?c=${categoryName}`,
-    );
-    if (toogleYes === false) {
+    if (categoryName !== 'All' && categoryName !== catTarget) {
+      const finalData = await fetchAPI(
+        `https://www.themealdb.com/api/json/v1/1/filter.php?c=${categoryName}`,
+      );
       setArrayCardsFoods(finalData.meals);
-      setToogleYes(true);
+      setCatTarget(categoryName);
     } else {
-      onClickAll();
-      setToogleYes(false);
+      const finalData = await fetchAPI(
+        'https://www.themealdb.com/api/json/v1/1/search.php?s=',
+      );
+      setArrayCardsFoods(finalData.meals);
+      setCatTarget('');
     }
   }
 
@@ -47,7 +44,7 @@ function Foods() {
     <>
       <Header />
       <SearchBarHeader />
-      <div className="Filters">
+      <div className="filters">
         { foodCategoryData !== null && foodCategoryData !== undefined
           && foodCategoryData.slice(0, cinco).map((category, index) => (
             <div key={ index }>
@@ -61,9 +58,10 @@ function Foods() {
             </div>
           ))}
         <button
+          className="allBtn"
           type="button"
           data-testid="All-category-filter"
-          onClick={ () => onClickAll() }
+          onClick={ () => onClickFilterFoodCategory('All') }
         >
           All
         </button>

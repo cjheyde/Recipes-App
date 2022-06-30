@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import HeaderContext from './headerContext';
 
 function HeaderProvider({ children }) {
-  const [headerState, setHeaderState] = useState('Foods');
+  const [headerState, setHeaderState] = useState('');
   const [foods, setFoods] = useState(true);
   const [drinks, setDrinks] = useState(false);
   const [fExploreNationality, setFExploreNationality] = useState(false);

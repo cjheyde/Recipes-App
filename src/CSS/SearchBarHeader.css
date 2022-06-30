@@ -1,0 +1,18 @@
+.searchBarHeader-container {
+  background-color: #d4400b;
+  display: flex;
+  flex-wrap: wrap;
+  font-family: Comfortaa , serif;
+  gap: 5%;
+  justify-content: space-evenly;
+  margin-bottom: 1%;
+  padding: 1%;
+}
+
+.searchBarHeader-container button {
+  background-color: #d4400b;
+  border: 1px solid #fabe00;
+  color: #fabe00;
+  outline: none;
+  width: 80vw;
+}

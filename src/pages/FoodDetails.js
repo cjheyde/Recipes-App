@@ -2,6 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
+import ComponentDrink from '../components/ComponentDrink';
+import '../CSS/FoodDetails.css';
+
+// req.43
+const copy = require('clipboard-copy');
 
 function FoodDetails() {
   const [ingredients, setIngredients] = useState([]);
@@ -10,13 +15,15 @@ function FoodDetails() {
   const location = useLocation();
   const pathname = location.pathname.split('/')[2];
   const [url1, setUrl] = useState([]);
-  const [drink, setDrink] = useState([]);
-  const [drink1, setDrink1] = useState([]);
+  // const [done, setDone] = useState([]);
+  const id = location.pathname.split('/')[2];
+  // req.43
+  const [showClipboardsMessage, setShowClipboardMessage] = useState(false);
 
   useEffect(() => {
     const apiMeal = async () => {
-      const url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${pathname}`;
-      const response = await fetch(url);
+      const url2 = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${pathname}`;
+      const response = await fetch(url2);
       const { meals } = await response.json();
       setMeal(meals[0]);
       setUrl(meals[0].strYoutube.split('='));
@@ -24,23 +31,10 @@ function FoodDetails() {
     apiMeal();
   }, [pathname]);
 
-  const randomApi = async () => {
-    try {
-      const urlRandomDirnks = 'https://www.thecocktaildb.com/api/json/v1/1/random.php';
-      const responseRandomDirnks = await fetch(urlRandomDirnks);
-      const { drinks } = await responseRandomDirnks.json();
-      setDrink(drinks);
-      const urlRandomDirnks1 = 'https://www.thecocktaildb.com/api/json/v1/1/random.php';
-      const responseRandomDirnks1 = await fetch(urlRandomDirnks1);
-      const { drinks1 } = await responseRandomDirnks1.json();
-      setDrink1(drinks1);
-    } catch (error) {
-      return console.log(error);
-    }
-  };
-
   useEffect(() => {
-    randomApi();
+    // const doneRecipes = localStorage.getItem('doneRecipes') || [];
+    // setDone(doneRecipes);
+    // randomApi();
     const ingred = [];
     const measu = [];
     Object.entries(meal).forEach(([key, value]) => {
@@ -55,8 +49,10 @@ function FoodDetails() {
     });
     setIngredients(ingred);
     setMeasure(measu);
-  }, [meal]);
-
+  }, [meal, id]);
+  const history = useHistory();
+  // const disable = done.find((el) => el.id === id).toString();
+  // console.log(disable);
   return (
     <section>
       <div>
@@ -68,19 +64,27 @@ function FoodDetails() {
       </div>
       <div>
         <h1 data-testid="recipe-title">{meal.strMeal}</h1>
-        <a
+        {/* req.43 */}
+        <button
           data-testid="share-btn"
           href={ `https://www.facebook.com/sharer/sharer.php?u=${useHistory.location}` }
+          type="button"
+          src={ shareIcon }
+          onClick={ () => {
+            setShowClipboardMessage(true);
+            copy(`http://localhost:3000${location.pathname}`);
+          } }
         >
           <img width="25" height="25" src={ shareIcon } alt="share" />
-        </a>
+        </button>
         <button
           type="button"
-          // onClick={ favoriteMealClick }
           data-testid="favorite-btn"
         >
           <img src={ blackHeartIcon } alt="favorite" width="25" height="25" />
         </button>
+        {/* req.43 */}
+        { showClipboardsMessage && <p>Link copied!</p> }
       </div>
       <div>
         <p data-testid="recipe-category">{meal.strCategory}</p>
@@ -117,23 +121,13 @@ function FoodDetails() {
           allowFullScreen
         />
       </div>
-      <div>
-        <h1>Recommended</h1>
-        <div data-testid="0-recomendation-card">
-          <img src={ drink?.strDrinkThumb } alt="bebida recomendada" />
-          <p>{ drink?.strAlcoholic }</p>
-          <h3 data-testid="0-recomendation-title">{ drink?.strDrink }</h3>
-        </div>
-        <div data-testid="1-recomendation-card">
-          <img src={ drink1?.strDrinkThumb } alt="bebida recomendada" />
-          <p>{ drink1?.strAlcoholic }</p>
-          <h3 data-testid="1-recomendation-title">{ drink1?.strDrink }</h3>
-        </div>
-      </div>
+      <h1>Recommended</h1>
+      <ComponentDrink />
       <button
+        className="buttonStartRecipe"
         data-testid="start-recipe-btn"
         type="button"
-        // onClick={ onClickButton }
+        onClick={ () => history.push(`/foods/${id}/in-progress`) }
       >
         Start Recipe
       </button>

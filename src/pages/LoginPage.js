@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import '../CSS/LoginPage.css';
 
 const six = 6;
 
@@ -36,8 +37,12 @@ function LoginPage() {
   };
 
   return (
-    <div>
-      <div>
+    <section className="login-container">
+      <div className="title-container">
+        <h1>myRecipie</h1>
+        <span>where you can find all yours favorite recipes</span>
+      </div>
+      <div className="login-inputs-container">
         <label htmlFor="email">
           <input
             id="email"
@@ -48,28 +53,28 @@ function LoginPage() {
             placeholder="Username"
             onChange={ handleChange }
           />
-          <label htmlFor="senha">
-            <input
-              id="senha"
-              type="password"
-              name="password"
-              value={ user.password }
-              data-testid="password-input"
-              placeholder="Password"
-              onChange={ handleChange }
-            />
-          </label>
-          <button
-            type="button"
-            data-testid="login-submit-btn"
-            disabled={ isDisabeld }
-            onClick={ handleClick }
-          >
-            Login
-          </button>
         </label>
+        <label htmlFor="senha">
+          <input
+            id="senha"
+            type="password"
+            name="password"
+            value={ user.password }
+            data-testid="password-input"
+            placeholder="Password"
+            onChange={ handleChange }
+          />
+        </label>
+        <button
+          type="button"
+          data-testid="login-submit-btn"
+          disabled={ isDisabeld }
+          onClick={ handleClick }
+        >
+          Login
+        </button>
       </div>
-    </div>
+    </section>
   );
 }
 

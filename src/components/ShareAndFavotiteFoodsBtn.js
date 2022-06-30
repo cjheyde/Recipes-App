@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation, useParams } from 'react-router-dom';
@@ -20,6 +19,7 @@ function ShareAndFavotiteMealsBtn({ mealApi }) {
     type: 'food',
     nationality: mealApi.strArea,
     category: mealApi.strCategory,
+    alcoholicOrNot: '',
     name: mealApi.strMeal,
     image: mealApi.strMealThumb,
   };
@@ -29,6 +29,7 @@ function ShareAndFavotiteMealsBtn({ mealApi }) {
       localStorage.setItem('favoriteRecipes', JSON.stringify([]));
     }
     const recipeSaved = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    console.log(recipeSaved);
     const someLocal = recipeSaved.some((item) => item.id === idUrl.id);
     setFavorite(someLocal);
   }, [idUrl.id]);
@@ -36,7 +37,6 @@ function ShareAndFavotiteMealsBtn({ mealApi }) {
   const func = () => {
     setFavorite(!favorite);
     const recipeSaved = JSON.parse(localStorage.getItem('favoriteRecipes'));
-    console.log(recipeSaved);
     if (recipeSaved.some((item) => item.id === idUrl.id)) {
       const filterdLocal = recipeSaved.filter((el) => el.id !== idUrl.id);
       localStorage.setItem('favoriteRecipes', JSON
@@ -44,6 +44,7 @@ function ShareAndFavotiteMealsBtn({ mealApi }) {
     } else {
       localStorage.setItem('favoriteRecipes', JSON.stringify([...recipeSaved, obj]));
     }
+    console.log(JSON.parse(localStorage.getItem('favoriteRecipes')));
   };
 
   const func2 = () => {
@@ -73,7 +74,7 @@ function ShareAndFavotiteMealsBtn({ mealApi }) {
   );
 }
 
-ShareAndFavotiteMealsBtn.proptype = {
+ShareAndFavotiteMealsBtn.propTypes = {
   mealApi: PropTypes.shape({
     idMeal: PropTypes.number.isRequired,
     strArea: PropTypes.string.isRequired,

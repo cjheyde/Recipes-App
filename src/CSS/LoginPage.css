@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Atma:wght@300;600&display=swap') ;
+
+.login-container {
+  align-items: center;
+  background: #d4400b;
+  display: flex;
+  flex-direction: column;
+  gap: 4vh;
+  height: 100vh;
+  justify-content: center;
+  margin-top: -10%;
+  width: 100vw;
+}
+
+.login-inputs-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1%;
+}
+
+.login-inputs-container input, button {
+  font-family: Atma , sans-serif;
+  padding: 1%;
+  width: 70vw;
+}
+
+.login-inputs-container input {
+  background: transparent;
+  border: 1px solid #fabe00;
+  color: #fabe00;
+  outline: none;
+}
+
+.login-inputs-container input::placeholder {
+  color: #fabe00;
+}
+
+.login-inputs-container button {
+  background: #fabe00;
+  border: 1px solid #d4400b;
+  color: #d4400b;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.1rem;
+  margin-top: 1%;
+  padding: 1%;
+  width: 70vw;
+}
+
+.login-inputs-container button:disabled {
+  background: #d4400b;
+  border: 1px solid #fabe00;
+  color: #fabe00;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.1rem;
+  margin-top: 1%;
+  opacity: 0.5;
+  padding: 1%;
+  width: 70vw;
+}
+
+
+.title-container {
+  align-items: center;
+  color: #fabe00;
+  display: flex;
+  flex-direction: column;
+  font-family: Atma , sans-serif;
+  justify-content: center;
+}
+
+.title-container h1 {
+  font-size: 10vh;
+  font-weight: 600;
+  margin: 0;
+}
