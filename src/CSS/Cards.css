@@ -1,7 +1,30 @@
 img {
-  max-width: 150px;
+  border-radius: 5px;
+  max-width: 100%;
+}
+
+.main-card-container {
+  display: grid;
+  gap: 3% 10%;
+  grid-template-columns: auto auto;
+  justify-content: center;
+}
+
+.card-container {
+  width: 35vw;
 }
 
 .cardName {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5%;
   max-width: 150px;
+}
+
+.card-btn {
+  background-color: #ff43009c;
+  border: none;
+  border-radius: 5px;
+  height: 24vh;
+  width: 35vw;
 }

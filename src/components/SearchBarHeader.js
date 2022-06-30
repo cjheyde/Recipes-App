@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import RecipesContext from '../MyContext/RecipesContext';
 import headerContext from '../MyContext/headerContext';
+import '../CSS/SearchBarHeader.css';
 
 const firstLetter = 'first-letter';
 
@@ -47,7 +48,7 @@ function SearchBarHeader() {
   };
 
   return (
-    <div>
+    <div className="searchBarHeader-container">
       <label htmlFor="ingredients">
         <input
           id="ingredients"
