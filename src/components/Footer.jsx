@@ -7,7 +7,10 @@ import mealIcon from '../images/mealIcon.svg';
 
 export default function Footer() {
   return (
-    <footer data-testid="footer">
+    <footer
+      className="footer-container"
+      data-testid="footer"
+    >
       <Link to="/drinks">
         <button
           type="button"

@@ -1,4 +1,13 @@
-footer {
+.footer-container {
+  border: 1px solid red;
   bottom: 0;
+  display: flex;
   position: fixed;
+  width: 100vw;
+}
+
+.footer-container button {
+  background-color: #d4400b;
+  border: none;
+  width: 34vw;
 }

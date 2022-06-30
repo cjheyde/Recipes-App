@@ -6,6 +6,7 @@ import SearchBarHeader from '../components/SearchBarHeader';
 import Footer from '../components/Footer';
 import RecipesContext from '../MyContext/RecipesContext';
 import '../CSS/FoodsDrinks.css';
+import '../CSS/FoodsPage.css';
 import fetchAPI from '../services/api';
 
 const cinco = 5;
@@ -43,7 +44,7 @@ function Foods() {
     <>
       <Header />
       <SearchBarHeader />
-      <div className="Filters">
+      <div className="filters">
         { foodCategoryData !== null && foodCategoryData !== undefined
           && foodCategoryData.slice(0, cinco).map((category, index) => (
             <div key={ index }>
@@ -57,6 +58,7 @@ function Foods() {
             </div>
           ))}
         <button
+          className="allBtn"
           type="button"
           data-testid="All-category-filter"
           onClick={ () => onClickFilterFoodCategory('All') }

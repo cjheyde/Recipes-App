@@ -7,6 +7,7 @@ import Footer from '../components/Footer';
 import RecipesContext from '../MyContext/RecipesContext';
 import fetchAPI from '../services/api';
 import '../CSS/FoodsDrinks.css';
+import '../CSS/FoodsPage.css';
 
 const cinco = 5;
 
@@ -45,7 +46,7 @@ function Drinks() {
     <>
       <Header />
       <SearchBarHeader />
-      <div className="Filters">
+      <div className="filters">
         { drinkCategoryData !== null && drinkCategoryData !== undefined
           && drinkCategoryData.slice(0, cinco).map((category, index) => (
             <div key={ index }>
