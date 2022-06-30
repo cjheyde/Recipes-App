@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import shareIcon from '../images/shareIcon.svg';
-import favoriteIcon from '../images/whiteHeartIcon.svg';
-// import blackHeartIcon from '../images/blackHeartIcon.svg';
-
-const copy = require('clipboard-copy');
+import ShareAndFavotiteMealsBtn from '../components/ShareAndFavotiteFoodsBtn';
 
 const criateStorage = () => {
   const cocktails = {};
@@ -18,14 +14,18 @@ function FoodProgress() {
   const [measure, setMeasure] = useState([]);
   const { id } = useParams();
   const [check, setCheck] = useState([]);
-  // const [favorite, setFavorite] = useState(false);
+  // const [isDisabled, setIsDisabled] = useState(true);
 
   useEffect(() => {
     const apiMeal = async () => {
-      const url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
-      const response = await fetch(url);
-      const { meals: mealAPI } = await response.json();
-      setMealApi(mealAPI[0]);
+      try {
+        const url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
+        const response = await fetch(url);
+        const { meals: mealAPI } = await response.json();
+        setMealApi(mealAPI[0]);
+      } catch (error) {
+        console.log(error);
+      }
     };
     apiMeal();
   }, [id]);
@@ -112,22 +112,7 @@ function FoodProgress() {
         alt="Recipe"
       />
       <h3 data-testid="recipe-title">{ mealApi?.strMeal }</h3>
-      <button
-        type="button"
-        data-testid="share-btn"
-        src={ shareIcon }
-        onClick={ () => global.alert('Link copied!') && copy('Link copied!') }
-      >
-        <img src={ shareIcon } alt={ shareIcon } />
-      </button>
-      <button
-        type="button"
-        data-testid="favorite-btn"
-        src={ favoriteIcon }
-        // onClick={ favorite ? setFavorite(false) : setFavorite(true) }
-      >
-        <img src={ favoriteIcon } alt={ favoriteIcon } />
-      </button>
+      <ShareAndFavotiteMealsBtn mealApi={ mealApi } />
       <p data-testid="recipe-category">{mealApi?.pstrCategory}</p>
       <h1>Ingredients</h1>
       <div>
@@ -138,7 +123,7 @@ function FoodProgress() {
                 id={ index }
                 key={ index }
                 type="checkbox"
-                onClick={ () => recoverRecipe(index) }
+                onChange={ () => recoverRecipe(index) }
                 checked={ check.some((che) => che === index) }
               />
               {`${value} - ${measure[index]}`}
@@ -152,6 +137,7 @@ function FoodProgress() {
       <button
         type="button"
         data-testid="finish-recipe-btn"
+        // disabled={ isDisabled }
       >
         Finish Recipe
       </button>
