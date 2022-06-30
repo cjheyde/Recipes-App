@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import shareIcon from '../images/shareIcon.svg';
-import favoriteIcon from '../images/whiteHeartIcon.svg';
-
-const copy = require('clipboard-copy');
+import ShareAndFavotiteDrinksBtn from '../components/ShareAndFavotiteDrinksBtn';
 
 const criateStorage = () => {
   const cocktails = {};
@@ -111,21 +108,7 @@ function DrinkProgress() {
         alt="Recipe"
       />
       <h3 data-testid="recipe-title">{ drinkApi?.strDrink }</h3>
-      <button
-        type="button"
-        data-testid="share-btn"
-        src={ shareIcon }
-        onClick={ () => global.alert('Link copied!') && copy('Link copied!') }
-      >
-        <img src={ shareIcon } alt={ shareIcon } />
-      </button>
-      <button
-        type="button"
-        data-testid="favorite-btn"
-        src={ favoriteIcon }
-      >
-        <img src={ favoriteIcon } alt={ favoriteIcon } />
-      </button>
+      <ShareAndFavotiteDrinksBtn drinkApi={ drinkApi } />
       <p data-testid="recipe-category">{drinkApi?.strCategory}</p>
       <h1>Ingredients</h1>
       <div>
