@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 
 function DrinksDone({ card, index }) {
   // const history = useHistory();
-  // console.log(card.type, card.id);
 
   return (
     <div
@@ -32,14 +31,14 @@ function DrinksDone({ card, index }) {
         className="cardCategory"
         data-testid={ `${index}-horizontal-top-text` }
       >
-        {card.category}
+        {card.alcoholicOrNot}
       </p>
-      <p
+      {/* <p
         className="cardAlcolica"
         data-testid={ `${index}-${card.alcoholicOrNot}-horizontal-tag` }
       >
         {card.alcoholicOrNot}
-      </p>
+      </p> */}
       <p
         className="cardDate"
         data-testid={ `${index}-horizontal-done-date` }
