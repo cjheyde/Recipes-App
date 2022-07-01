@@ -29,7 +29,6 @@ function ShareAndFavotiteMealsBtn({ mealApi }) {
       localStorage.setItem('favoriteRecipes', JSON.stringify([]));
     }
     const recipeSaved = JSON.parse(localStorage.getItem('favoriteRecipes'));
-    console.log(recipeSaved);
     const someLocal = recipeSaved.some((item) => item.id === idUrl.id);
     setFavorite(someLocal);
   }, [idUrl.id]);
@@ -76,7 +75,7 @@ function ShareAndFavotiteMealsBtn({ mealApi }) {
 
 ShareAndFavotiteMealsBtn.propTypes = {
   mealApi: PropTypes.shape({
-    idMeal: PropTypes.number.isRequired,
+    idMeal: PropTypes.string.isRequired,
     strArea: PropTypes.string.isRequired,
     strCategory: PropTypes.string.isRequired,
     strMeal: PropTypes.string.isRequired,

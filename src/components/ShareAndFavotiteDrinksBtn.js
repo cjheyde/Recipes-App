@@ -13,7 +13,6 @@ function ShareAndFavotiteDrinksBtn({ drinkApi }) {
   const { pathname } = useLocation();
   const newPath = pathname.split('/in-progress', (1 + 1 + 1));
   const idUrl = useParams();
-  console.log(drinkApi);
 
   const obj = {
     id: drinkApi.idDrink,
@@ -76,8 +75,7 @@ function ShareAndFavotiteDrinksBtn({ drinkApi }) {
 
 ShareAndFavotiteDrinksBtn.propTypes = {
   drinkApi: PropTypes.shape({
-    idDrink: PropTypes.number.isRequired,
-    strArea: PropTypes.string.isRequired,
+    idDrink: PropTypes.string.isRequired,
     strCategory: PropTypes.string.isRequired,
     strDrink: PropTypes.string.isRequired,
     strAlcoholic: PropTypes.string.isRequired,

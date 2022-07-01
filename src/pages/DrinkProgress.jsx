@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import ShareAndFavotiteDrinksBtn from '../components/ShareAndFavotiteDrinksBtn';
 
 const criateStorage = () => {
@@ -14,6 +14,8 @@ function DrinkProgress() {
   const [measure, setMeasure] = useState([]);
   const { id } = useParams();
   const [check, setCheck] = useState([]);
+  const [isDisabled, setIsDisabled] = useState(0);
+  const history = useHistory();
 
   useEffect(() => {
     const apiDrink = async () => {
@@ -83,6 +85,10 @@ function DrinkProgress() {
       };
       setCheck(arrayIngredients);
       localStorage.setItem('InProgressRecipes', JSON.stringify({ ...newLocal }));
+      const { cocktails: { [id]: testeLocal2 } } = JSON
+        .parse(localStorage.getItem('InProgressRecipes'));
+      console.log(testeLocal2.length);
+      setIsDisabled(testeLocal2?.length);
     } else {
       const { cocktails: { [id]: recipeIdmeals } } = JSON
         .parse(localStorage.getItem('InProgressRecipes'));
@@ -133,6 +139,9 @@ function DrinkProgress() {
       <button
         type="button"
         data-testid="finish-recipe-btn"
+        disabled={ !(isDisabled === ingredients?.length
+          && ingredients?.length > 0) }
+        onClick={ () => history.push('/done-recipes') }
       >
         Finish Recipe
       </button>

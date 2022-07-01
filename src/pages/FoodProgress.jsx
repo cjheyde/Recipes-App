@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import ShareAndFavotiteMealsBtn from '../components/ShareAndFavotiteFoodsBtn';
 
 const criateStorage = () => {
@@ -14,7 +14,8 @@ function FoodProgress() {
   const [measure, setMeasure] = useState([]);
   const { id } = useParams();
   const [check, setCheck] = useState([]);
-  // const [isDisabled, setIsDisabled] = useState(true);
+  const [isDisabled, setIsDisabled] = useState(0);
+  const history = useHistory();
 
   useEffect(() => {
     const apiMeal = async () => {
@@ -69,7 +70,11 @@ function FoodProgress() {
         .parse(localStorage.getItem('InProgressRecipes'));
       setCheck(recipe);
     }
-  }, [id]);
+  }, [id, ingredients]);
+
+  // const { meals: { [id]: lengthLocal } } = JSON.parse(localStorage
+  //   .getItem('InProgressRecipes'));
+  // console.log(lengthLocal);
 
   const recoverRecipe = (ingredient) => {
     const getLocal = JSON.parse(localStorage.getItem('InProgressRecipes'));
@@ -87,6 +92,9 @@ function FoodProgress() {
       };
       setCheck(arrayIngredients);
       localStorage.setItem('InProgressRecipes', JSON.stringify({ ...newLocal }));
+      const { meals: { [id]: testeLocal2 } } = JSON
+        .parse(localStorage.getItem('InProgressRecipes'));
+      setIsDisabled(testeLocal2?.length);
     } else {
       const { meals: { [id]: recipeIdmeals } } = JSON
         .parse(localStorage.getItem('InProgressRecipes'));
@@ -137,7 +145,9 @@ function FoodProgress() {
       <button
         type="button"
         data-testid="finish-recipe-btn"
-        // disabled={ isDisabled }
+        disabled={ !(isDisabled === ingredients?.length
+          && ingredients?.length > 0) }
+        onClick={ () => history.push('/done-recipes') }
       >
         Finish Recipe
       </button>
