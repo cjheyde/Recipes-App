@@ -4,6 +4,8 @@ import React, { useEffect, useContext, useState } from 'react';
 import Header from '../components/Header';
 import headerContext from '../MyContext/headerContext';
 import shareIcon from '../images/shareIcon.svg';
+import FoodsDone from '../components/FoodsDone';
+import DrinksDone from '../components/DrinksDone';
 
 const copy = require('clipboard-copy');
 
@@ -18,13 +20,15 @@ function DoneRecipes() {
 
   // const { id } = useParams();
   const [arrayDone, setArrayDone] = useState([]);
+  const [filteredRecipes, setFilteredRecipes] = useState([]);
   const [showClipboardsMessage, setShowClipboardMessage] = useState(false);
 
   function getDoneRecipesLStorage() {
     const allDoneRecipes = JSON.parse(localStorage
-      .getItem('doneRecipes'));
+      .getItem('doneRecipes')) || [];
     setArrayDone(allDoneRecipes);
-    console.log(`all done recipes = ${allDoneRecipes}`);
+    // console.log(`all done recipes = ${allDoneRecipes}`);
+    setFilteredRecipes(allDoneRecipes);
   }
 
   useEffect(() => {
@@ -32,15 +36,15 @@ function DoneRecipes() {
   }, []);
 
   function onlyFoods() {
-    const onlyFood = arrayDone.filter((recipe, index) => recipe[index].type === 'food');
-    setArrayDone(onlyFood);
-    console.log(`only food = ${onlyFood}`);
+    const onlyFood = arrayDone.filter((recipe) => recipe.type === 'food');
+    setFilteredRecipes(onlyFood);
+    // console.log(`only food = ${onlyFood}`);
   }
 
   function onlyDrinks() {
-    const onlyDrink = arrayDone.filter((recipe) => recipe.type !== 'food');
-    setArrayDone(onlyDrink);
-    console.log(`only drink = ${arrayDone}`);
+    const onlyDrink = arrayDone.filter((recipe) => recipe.type === 'drink');
+    setFilteredRecipes(onlyDrink);
+    // console.log(`only drink = ${arrayDone}`);
   }
 
   return (
@@ -69,8 +73,8 @@ function DoneRecipes() {
           Drinks
         </button>
       </div>
-      { arrayDone !== null && arrayDone !== undefined
-        && Ontebject.keys(arrayDone).map((card, index) => (
+      { filteredRecipes !== null && filteredRecipes !== undefined
+        && filteredRecipes.map((card, index) => (
           (card.type === 'food')
             ? (
               <>

@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 
 function FoodsDone({ card, index }) {
   // const history = useHistory();
-  console.log(`card id = ${card[index].id}`);
-  console.log(`card type = ${card[index].type}`);
+  // console.log(`card id = ${card.id}`);
+  // console.log(`card type = ${card.type}`);
 
   return (
     <div
@@ -19,14 +19,14 @@ function FoodsDone({ card, index }) {
       >
         <img
           data-testid={ `${index}-horizontal-image` }
-          src={ card[index].image }
+          src={ card.image }
           alt="thumb"
         />
         <p
           className="cardName"
           data-testid={ `${index}-horizontal-name` }
         >
-          {card[index].name}
+          {card.name}
         </p>
       </button>
       <p
@@ -39,25 +39,25 @@ function FoodsDone({ card, index }) {
         className="cardNationality"
         data-testid={ `${index}-${card.nationality}-horizontal-tag` }
       >
-        {card[index].nationality}
+        {card.nationality}
       </p>
       <p
         className="cardDate"
         data-testid={ `${index}-horizontal-done-date` }
       >
-        {card[index].doneDate}
+        {card.doneDate}
       </p>
       <p
         className="cardTag1Api"
-        data-testid={ `${index}-${card[index].tag[0]}-horizontal-tag` }
+        data-testid={ `${index}-${card.tags[0]}-horizontal-tag` }
       >
-        {card[index].tag[0]}
+        {card.tags[0]}
       </p>
       <p
         className="cardTag2Api"
-        data-testid={ `${index}-${card.tag[1]}-horizontal-tag` }
+        data-testid={ `${index}-${card.tags[1]}-horizontal-tag` }
       >
-        {card[index].tag[1]}
+        {card.tags[1]}
       </p>
     </div>
   );
