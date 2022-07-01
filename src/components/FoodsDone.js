@@ -33,14 +33,16 @@ function FoodsDone({ card, index }) {
         className="cardCategory"
         data-testid={ `${index}-horizontal-top-text` }
       >
+        {card.nationality}
+        { ' - ' }
         {card.category}
       </p>
-      <p
+      {/* <p
         className="cardNationality"
         data-testid={ `${index}-${card.nationality}-horizontal-tag` }
       >
         {card.nationality}
-      </p>
+      </p> */}
       <p
         className="cardDate"
         data-testid={ `${index}-horizontal-done-date` }
