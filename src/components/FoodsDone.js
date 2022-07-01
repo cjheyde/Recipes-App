@@ -1,9 +1,9 @@
 import React from 'react';
-// import { useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 function FoodsDone({ card, index }) {
-  // const history = useHistory();
+  const history = useHistory();
 
   return (
     <div
@@ -13,19 +13,23 @@ function FoodsDone({ card, index }) {
     >
       <button
         type="button"
-        // onClick={ history.push(`/foods/${card.id}`) }
+        onClick={ () => history.push(`/foods/${card.id}`) }
       >
         <img
           data-testid={ `${index}-horizontal-image` }
           src={ card.image }
           alt="thumb"
         />
-        <p
+        <div
           className="cardName"
           data-testid={ `${index}-horizontal-name` }
+          onClick={ () => history.push(`/foods/${card.id}`) }
+          onKeyPress={ () => history.push(`/drinks/${card.id}`) }
+          role="button"
+          tabIndex={ 0 }
         >
           {card.name}
-        </p>
+        </div>
       </button>
       <p
         className="cardCategory"

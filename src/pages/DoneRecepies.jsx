@@ -85,7 +85,7 @@ function DoneRecipes() {
                   src={ shareIcon }
                   onClick={ () => {
                     setShowClipboardMessage(true);
-                    copy(`${window.location.href}`);
+                    copy(`http://localhost:3000/${card.type}s/${card.id}`);
                   } }
                 >
                   <img src={ shareIcon } alt="Compartilhar" />
