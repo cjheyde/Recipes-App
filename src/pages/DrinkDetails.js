@@ -15,7 +15,7 @@ function DrinkDetails() {
   const [drinkApi, setDrink] = useState([]);
   const location = useLocation();
   const pathname = location.pathname.split('/')[2];
-  const [done, setDone] = useState([]);
+  // const [done, setDone] = useState([]);
   const id = location.pathname.split('/')[2];
   // req.43
   // const [showClipboardsMessage, setShowClipboardMessage] = useState(false);
@@ -31,8 +31,8 @@ function DrinkDetails() {
   }, [pathname]);
 
   useEffect(() => {
-    const doneRecipes = localStorage.getItem('doneRecipes') || [];
-    setDone(doneRecipes);
+    // const doneRecipes = localStorage.getItem('doneRecipes') || [];
+    // setDone(doneRecipes);
     const ingred = [];
     const measu = [];
     Object.entries(drinkApi).forEach(([key, value]) => {
@@ -49,8 +49,8 @@ function DrinkDetails() {
     setMeasure(measu);
   }, [drinkApi]);
   const history = useHistory();
-  const disable = done.length === 0 ? false : done.find((el) => el.id === id);
-  console.log(disable);
+  // const disable = done.length === 0 ? false : done.find((el) => el.id === id);
+  // console.log(disable);
   return (
     <section>
       <div>
