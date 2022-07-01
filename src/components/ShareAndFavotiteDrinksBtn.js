@@ -4,6 +4,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
 import favoriteIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
+import '../CSS/ShareAndFavorite.css';
 
 const copy = require('clipboard-copy');
 
@@ -53,6 +54,7 @@ function ShareAndFavotiteDrinksBtn({ drinkApi }) {
     <>
       { copied && <p>Link copied!</p>}
       <button
+        className="shareIcon"
         type="button"
         data-testid="share-btn"
         src={ shareIcon }
@@ -61,6 +63,7 @@ function ShareAndFavotiteDrinksBtn({ drinkApi }) {
         <img src={ shareIcon } alt={ shareIcon } />
       </button>
       <button
+        className="favorite"
         type="button"
         data-testid="favorite-btn"
         src={ favorite ? blackHeartIcon : favoriteIcon }
