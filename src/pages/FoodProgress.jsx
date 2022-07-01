@@ -72,10 +72,6 @@ function FoodProgress() {
     }
   }, [id, ingredients]);
 
-  // const { meals: { [id]: lengthLocal } } = JSON.parse(localStorage
-  //   .getItem('InProgressRecipes'));
-  // console.log(lengthLocal);
-
   const recoverRecipe = (ingredient) => {
     const getLocal = JSON.parse(localStorage.getItem('InProgressRecipes'));
     const { meals: { [id]: testeLocal } } = getLocal;
