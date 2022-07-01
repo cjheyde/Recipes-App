@@ -1,24 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import shareIcon from '../images/shareIcon.svg';
-import blackHeartIcon from '../images/blackHeartIcon.svg';
+// import shareIcon from '../images/shareIcon.svg';
+// import blackHeartIcon from '../images/blackHeartIcon.svg';
 import ComponentDrink from '../components/ComponentDrink';
 import '../CSS/FoodDetails.css';
+import ShareAndFavotiteMealsBtn from '../components/ShareAndFavotiteFoodsBtn';
 
 // req.43
-const copy = require('clipboard-copy');
+// const copy = require('clipboard-copy');
 
 function FoodDetails() {
   const [ingredients, setIngredients] = useState([]);
   const [measure, setMeasure] = useState([]);
-  const [meal, setMeal] = useState([]);
+  const [mealApi, setMeal] = useState([]);
   const location = useLocation();
   const pathname = location.pathname.split('/')[2];
   const [url1, setUrl] = useState([]);
   // const [done, setDone] = useState([]);
   const id = location.pathname.split('/')[2];
   // req.43
-  const [showClipboardsMessage, setShowClipboardMessage] = useState(false);
+  // const [showClipboardsMessage, setShowClipboardMessage] = useState(false);
 
   useEffect(() => {
     const apiMeal = async () => {
@@ -37,19 +38,19 @@ function FoodDetails() {
     // randomApi();
     const ingred = [];
     const measu = [];
-    Object.entries(meal).forEach(([key, value]) => {
+    Object.entries(mealApi).forEach(([key, value]) => {
       if (key.includes('strIngredient') && value !== '' && value !== null) {
         ingred.push(value);
       }
     });
-    Object.entries(meal).forEach(([key, value]) => {
+    Object.entries(mealApi).forEach(([key, value]) => {
       if (key.includes('strMeasure') && value !== '' && value !== null) {
         measu.push(value);
       }
     });
     setIngredients(ingred);
     setMeasure(measu);
-  }, [meal, id]);
+  }, [mealApi, id]);
   const history = useHistory();
   // const disable = done.find((el) => el.id === id).toString();
   // console.log(disable);
@@ -58,36 +59,17 @@ function FoodDetails() {
       <div>
         <img
           data-testid="recipe-photo"
-          src={ meal.strMealThumb }
-          alt={ meal.strMeal }
+          src={ mealApi.strMealThumb }
+          alt={ mealApi.strMeal }
         />
       </div>
       <div>
-        <h1 data-testid="recipe-title">{meal.strMeal}</h1>
+        <h1 data-testid="recipe-title">{mealApi.strMeal}</h1>
         {/* req.43 */}
-        <button
-          data-testid="share-btn"
-          href={ `https://www.facebook.com/sharer/sharer.php?u=${useHistory.location}` }
-          type="button"
-          src={ shareIcon }
-          onClick={ () => {
-            setShowClipboardMessage(true);
-            copy(`http://localhost:3000${location.pathname}`);
-          } }
-        >
-          <img width="25" height="25" src={ shareIcon } alt="share" />
-        </button>
-        <button
-          type="button"
-          data-testid="favorite-btn"
-        >
-          <img src={ blackHeartIcon } alt="favorite" width="25" height="25" />
-        </button>
-        {/* req.43 */}
-        { showClipboardsMessage && <p>Link copied!</p> }
+        <ShareAndFavotiteMealsBtn mealApi={ mealApi } />
       </div>
       <div>
-        <p data-testid="recipe-category">{meal.strCategory}</p>
+        <p data-testid="recipe-category">{mealApi.strCategory}</p>
       </div>
       <div>
         <h2>Ingredients</h2>
@@ -105,7 +87,7 @@ function FoodDetails() {
       </div>
       <div>
         <h1>Instructions</h1>
-        <p data-testid="instructions">{ meal.strInstructions }</p>
+        <p data-testid="instructions">{ mealApi.strInstructions }</p>
       </div>
       <div>
         <h1>Video</h1>

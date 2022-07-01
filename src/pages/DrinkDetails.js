@@ -1,23 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import shareIcon from '../images/shareIcon.svg';
-import blackHeartIcon from '../images/blackHeartIcon.svg';
+// import shareIcon from '../images/shareIcon.svg';
+// import blackHeartIcon from '../images/blackHeartIcon.svg';
 import ComponentFood from '../components/ComponentFood';
+import ShareAndFavotiteDrinksBtn from '../components/ShareAndFavotiteDrinksBtn';
 import '../CSS/DrinkDetails.css';
 
 // req.43
-const copy = require('clipboard-copy');
+// const copy = require('clipboard-copy');
 
 function DrinkDetails() {
   const [ingredients, setIngredients] = useState([]);
   const [measure, setMeasure] = useState([]);
-  const [drink, setDrink] = useState([]);
+  const [drinkApi, setDrink] = useState([]);
   const location = useLocation();
   const pathname = location.pathname.split('/')[2];
   const [done, setDone] = useState([]);
   const id = location.pathname.split('/')[2];
   // req.43
-  const [showClipboardsMessage, setShowClipboardMessage] = useState(false);
+  // const [showClipboardsMessage, setShowClipboardMessage] = useState(false);
 
   useEffect(() => {
     const apiDrink = async () => {
@@ -34,19 +35,19 @@ function DrinkDetails() {
     setDone(doneRecipes);
     const ingred = [];
     const measu = [];
-    Object.entries(drink).forEach(([key, value]) => {
+    Object.entries(drinkApi).forEach(([key, value]) => {
       if (key.includes('strIngredient') && value !== '' && value !== null) {
         ingred.push(value);
       }
     });
-    Object.entries(drink).forEach(([key, value]) => {
+    Object.entries(drinkApi).forEach(([key, value]) => {
       if (key.includes('strMeasure') && value !== '' && value !== null) {
         measu.push(value);
       }
     });
     setIngredients(ingred);
     setMeasure(measu);
-  }, [drink]);
+  }, [drinkApi]);
   const history = useHistory();
   const disable = done.length === 0 ? false : done.find((el) => el.id === id);
   console.log(disable);
@@ -55,36 +56,17 @@ function DrinkDetails() {
       <div>
         <img
           data-testid="recipe-photo"
-          src={ drink.strDrinkThumb }
-          alt={ drink.strDrink }
+          src={ drinkApi.strDrinkThumb }
+          alt={ drinkApi.strDrink }
         />
       </div>
       <div>
-        <h1 data-testid="recipe-title">{drink.strDrink}</h1>
+        <h1 data-testid="recipe-title">{drinkApi.strDrink}</h1>
         {/* req.43 */}
-        <button
-          data-testid="share-btn"
-          href={ `https://www.facebook.com/sharer/sharer.php?u=${useHistory.location}` }
-          type="button"
-          src={ shareIcon }
-          onClick={ () => {
-            setShowClipboardMessage(true);
-            copy(`http://localhost:3000${location.pathname}`);
-          } }
-        >
-          <img width="25" height="25" src={ shareIcon } alt="share" />
-        </button>
-        <button
-          type="button"
-          data-testid="favorite-btn"
-        >
-          <img src={ blackHeartIcon } alt="favorite" width="25" height="25" />
-        </button>
-        {/* req.43 */}
-        { showClipboardsMessage && <p>Link copied!</p> }
+        <ShareAndFavotiteDrinksBtn drinkApi={ drinkApi } />
       </div>
       <div>
-        <p data-testid="recipe-category">{ drink.strAlcoholic }</p>
+        <p data-testid="recipe-category">{ drinkApi.strAlcoholic }</p>
       </div>
       <div>
         <h2>Ingredients</h2>
@@ -102,7 +84,7 @@ function DrinkDetails() {
       </div>
       <div>
         <h1>Instructions</h1>
-        <p data-testid="instructions">{ drink.strInstructions }</p>
+        <p data-testid="instructions">{ drinkApi.strInstructions }</p>
       </div>
       <div>
         <h1>Recommended</h1>
