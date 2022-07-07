@@ -51,6 +51,20 @@ function DrinkDetails() {
   const history = useHistory();
   // const disable = done.length === 0 ? false : done.find((el) => el.id === id);
   // console.log(disable);
+
+  const checkLocal = JSON
+    .parse(localStorage.getItem('doneRecipes'));
+
+  let check = false;
+
+  const checkNull = checkLocal;
+
+  if (checkLocal === null) {
+    check = false;
+  } else {
+    check = checkLocal.some((recipe) => recipe.id === drinkApi.idDrink);
+  }
+
   return (
     <section>
       <div>
@@ -90,15 +104,19 @@ function DrinkDetails() {
         <h1>Recommended</h1>
         <ComponentFood />
       </div>
-
-      <button
-        className="buttonStartRecipe"
-        data-testid="start-recipe-btn"
-        type="button"
-        onClick={ () => history.push(`/drinks/${id}/in-progress`) }
-      >
-        Start Recipe
-      </button>
+      {console.log('valor de check: ', check)}
+      { !check || checkNull === null
+        ? (
+          <button
+            className="buttonStartRecipe"
+            data-testid="start-recipe-btn"
+            type="button"
+            onClick={ () => history.push(`/drinks/${id}/in-progress`) }
+          >
+            Start Recipe
+          </button>
+        )
+        : console.log('check invalid') }
     </section>
   );
 }

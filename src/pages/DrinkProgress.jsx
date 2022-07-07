@@ -6,6 +6,17 @@ const criateStorage = () => {
   const cocktails = {};
   const meals = {};
   localStorage.setItem('InProgressRecipes', JSON.stringify({ cocktails, meals }));
+  // localStorage.setItem('doneRecipes', JSON.stringify([{
+  //   id: '',
+  //   type: '',
+  //   nationality: '',
+  //   category: '',
+  //   alcoholicOrNot: '',
+  //   name: '',
+  //   image: '',
+  //   doneDate: '',
+  //   tags: [],
+  // }]));
 };
 
 function DrinkProgress() {
@@ -141,7 +152,30 @@ function DrinkProgress() {
         data-testid="finish-recipe-btn"
         disabled={ !(isDisabled === ingredients?.length
           && ingredients?.length > 0) }
-        onClick={ () => history.push('/done-recipes') }
+        onClick={ () => {
+          console.log('drinkApi', drinkApi);
+          let arrayTags = [];
+          if (drinkApi.strTags !== null) {
+            arrayTags = drinkApi.strTags.split(',');
+          } else {
+            arrayTags = [];
+          }
+          const getLocal = JSON.parse(localStorage.getItem('doneRecipes')) || [];
+          const newLocal2 = {
+            id: drinkApi.idDrink,
+            type: 'drink',
+            nationality: '',
+            category: drinkApi.strCategory,
+            alcoholicOrNot: drinkApi.strAlcoholic,
+            name: drinkApi.strDrink,
+            image: drinkApi.strDrinkThumb,
+            doneDate: drinkApi.dateModified,
+            tags: arrayTags,
+          };
+          const newArray = [...getLocal, newLocal2];
+          localStorage.setItem('doneRecipes', JSON.stringify(newArray));
+          history.push('/done-recipes');
+        } }
       >
         Finish Recipe
       </button>

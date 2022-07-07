@@ -14,14 +14,29 @@ function DoneRecipes() {
   }, [setHeaderState, setSearchBar, setFoods]);
 
   const [arrayDone, setArrayDone] = useState([]);
-  const [filteredRecipes, setFilteredRecipes] = useState([]);
+  const [filteredRecipes, setFilteredRecipes] = useState(['zero']);
+
+  const defaultObj = [{
+    id: 'default',
+    type: 'default',
+    nationality: 'default',
+    category: 'default',
+    alcoholicOrNot: 'default',
+    name: 'default',
+    image: 'default',
+    tags: ['default', 'default 01'],
+  }];
 
   function getDoneRecipesLStorage() {
-    const allDoneRecipes = JSON.parse(localStorage
-      .getItem('doneRecipes')) || [];
-    setArrayDone(allDoneRecipes);
-    // console.log(`all done recipes = ${allDoneRecipes}`);
-    setFilteredRecipes(allDoneRecipes);
+    // const allDoneRecipes = JSON.parse(localStorage
+    //   .getItem('favoriteRecipes')) || [defaultObj];
+    const testObj = JSON
+      .parse(localStorage.getItem('doneRecipes')) || defaultObj;
+    console.log('local data', testObj);
+    const allDoneRecipes = [testObj];
+    setArrayDone(allDoneRecipes[0]);
+    console.log(`all done recipes = ${allDoneRecipes[0]}`);
+    setFilteredRecipes(allDoneRecipes[0]);
   }
 
   useEffect(() => {
@@ -29,7 +44,9 @@ function DoneRecipes() {
   }, []);
 
   function onlyFoods() {
+    console.log('arrayDone', arrayDone);
     const onlyFood = arrayDone.filter((recipe) => recipe.type === 'food');
+    console.log('foods', onlyFood);
     setFilteredRecipes(onlyFood);
     // console.log(`only food = ${onlyFood}`);
   }
@@ -66,12 +83,34 @@ function DoneRecipes() {
           Drinks
         </button>
       </div>
-      { filteredRecipes !== null && filteredRecipes !== undefined
+      {console.log('filtered', filteredRecipes)}
+      { console.log(filteredRecipes) }
+      {filteredRecipes[0] !== 'zero'
+      && filteredRecipes.map((receita, indice) => (
+        receita.type === 'drink'
+          ? (<DrinksDone card={ receita } index={ indice } key={ indice } />)
+          : (<FoodsDone card={ receita } index={ indice } key={ indice } />)
+      ))}
+      {/* {filteredRecipes[0] !== 'zero'
+       && filteredRecipes[0].type === 'food'
+       && filteredRecipes
+         .filter((card, index) => card[index].type === 'food')[0]
+         .map((cardItem, cardIndex) => (
+           <FoodsDone card={ cardItem } index={ cardIndex } key={ cardIndex } />
+         ))} */}
+      {/* {filteredRecipes[0] !== 'zero'
+      && filteredRecipes[0].type === 'drink'
+      && filteredRecipes
+        .filter((card, index) => card[index].type === 'drink')[0]
+        .map((cardItem, cardIndex) => (
+          <DrinksDone card={ cardItem } index={ cardIndex } key={ cardIndex } />
+        ))} */}
+      {/* { filteredRecipes !== null && filteredRecipes !== undefined
         && filteredRecipes.map((card, index) => (
           (card.type === 'food')
             ? <FoodsDone card={ card } index={ index } />
             : <DrinksDone card={ card } index={ index } />
-        ))}
+        ))} */}
     </>
   );
 }

@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import RecipesContext from '../MyContext/RecipesContext';
 import shareIcon from '../images/shareIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 
 const copy = require('clipboard-copy');
 
-function DrinksDone({ card, index }) {
+function DrinksFavorite({ card, index }) {
   const history = useHistory();
   const [showClipboardsMessage, setShowClipboardMessage] = useState(false);
-  console.log('card', card);
-  console.log('index', index);
+  const { reload, setReload } = useContext(RecipesContext);
 
   return (
     <div
@@ -57,13 +58,28 @@ function DrinksDone({ card, index }) {
         <img src={ shareIcon } alt="Compartilhar" />
       </button>
       {showClipboardsMessage && <p>Link copied!</p>}
+      <button
+        type="button"
+        data-testid={ `${index}-horizontal-favorite-btn` }
+        src={ blackHeartIcon }
+        onClick={ () => {
+          const oldFavorites = JSON.parse(localStorage.getItem('favoriteRecipes'));
+          console.log(oldFavorites);
+          const newFavorites = oldFavorites.filter((recipe) => recipe.id !== card.id);
+          console.log(newFavorites);
+          localStorage.setItem('favoriteRecipes', JSON.stringify(newFavorites));
+          setReload(!reload);
+        } }
+      >
+        <img src={ blackHeartIcon } alt="Favoritar" />
+      </button>
     </div>
   );
 }
 
-DrinksDone.propTypes = {
+DrinksFavorite.propTypes = {
   card: PropTypes.objectOf(PropTypes.string).isRequired,
   index: PropTypes.number.isRequired,
 };
 
-export default DrinksDone;
+export default DrinksFavorite;
