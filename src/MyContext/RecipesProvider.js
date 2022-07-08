@@ -26,6 +26,7 @@ function RecipesProvider({ children }) {
   const [explFoodIngred, setExplFoodIngred] = useState([]);
   const [explDrinkIngred, setExplDrinkIngred] = useState([]);
   const [arrayNationsList, setArrayNationsList] = useState([]);
+  const [reload, setReload] = useState(false);
 
   async function fetchNationsList() {
     const finalData = await fetchAPI('https://www.themealdb.com/api/json/v1/1/list.php?a=list');
@@ -229,6 +230,8 @@ function RecipesProvider({ children }) {
     setArrayCardsDrinks,
     arrayNationsList,
     setArrayNationsList,
+    reload,
+    setReload,
   };
 
   return (
